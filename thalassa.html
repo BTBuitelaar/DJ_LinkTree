@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thalassa – Doric Jewelry</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body {
+  background: #ffffff; min-height: 100vh; font-family: 'Georgia', serif; color: #111;
+  display: flex; align-items: flex-start; justify-content: center; padding: 30vh 24px 40px; /* bovenkant vast, zodat OOPS alleen naar beneden duwt */
+}
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: 420px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+.eyes { font-size: 64px; line-height: 1; margin-bottom: 32px; display: inline-block; animation: peek 3.2s ease-in-out .9s infinite; }
+@keyframes peek {
+  0%, 30%, 100% { transform: translateX(0) rotate(0); }
+  10% { transform: translateX(-10px) rotate(-6deg); }
+  20% { transform: translateX(10px) rotate(6deg); }
+}
+
+.oops { font-size: 30px; font-weight: 700; letter-spacing: 8px; margin-right: -8px; text-transform: uppercase; color: #9a9a9a; margin-bottom: 16px; line-height: 1.2; }
+/* OOPS wordt groter en weer kleiner; font-size (geen transform) zodat de tekst eronder mee naar beneden schuift */
+@keyframes oopsPop { 0% { font-size: 30px; } 40% { font-size: 52px; } 70% { font-size: 26px; } 85% { font-size: 32px; } 100% { font-size: 30px; } }
+.msg { font-size: 22px; line-height: 1.5; font-style: italic; color: #222; text-wrap: balance; }
+.divider { width: 40px; height: 1px; background: #e0e0e0; margin: 32px 0; }
+.name { font-size: 28px; font-weight: 300; letter-spacing: 8px; text-transform: uppercase; color: #bbb; }
+.soon { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: #aaa; margin-top: 10px; }
+.back-bar { position: fixed; left: 0; right: 0; top: calc(30vh + 290px); text-align: center; } /* vaste plek: beweegt niet mee met OOPS */
+.back { display: inline-block; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: #111; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; }
+
+@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.oops, .msg, .divider, .name, .soon, .back { animation: riseIn .9s cubic-bezier(.2,.7,.2,1) both; }
+.oops { animation: riseIn .9s cubic-bezier(.2,.7,.2,1) .2s both, oopsPop 1.2s ease-in-out 1.5s both; } .msg { animation-delay: .35s; } .divider { animation-delay: .5s; }
+.name { animation-delay: .6s; } .soon { animation-delay: .7s; } .back { animation-delay: .85s; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+</style>
+</head>
+<body style="opacity:0;transition:opacity 600ms ease;"><script>(function(){requestAnimationFrame(function(){requestAnimationFrame(function(){document.body.style.opacity='1';});});})();</script>
+<div class="wrap">
+  <span class="eyes" role="img" aria-label="eyes">👀</span>
+  <p class="oops">Oops</p>
+  <p class="msg">This magic hasn't been summoned yet&hellip;</p>
+</div>
+<div class="back-bar"><a class="back" href="index.html#home">&larr; Back</a></div>
+</body>
+</html>

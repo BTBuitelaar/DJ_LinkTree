@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doric Jewelry</title>
+<script>
+/* Laadscherm bij binnenkomst; via de Back-knop van een subpagina (index.html#home) direct de pagina. */
+(function(){
+  var seen = location.hash === '#home';   /* terug vanaf een subpagina: geen laadscherm */
+  document.documentElement.classList.add(seen ? 'no-intro' : 'intro');
+})();
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { background: #ffffff; min-height: 100vh; padding: 0 0 80px; font-family: 'Georgia', serif; color: #111; }
+a { color: inherit; text-decoration: none; }
+.intro body { overflow: hidden; height: 100vh; }
+
+/* ---------- INTRO / LAADSCHERM (ligt als laag over de pagina) ---------- */
+.intro-layer { display: none; }
+.intro .intro-layer {
+  display: flex; position: fixed; inset: 0; z-index: 50;
+  flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  pointer-events: none;
+}
+.intro-bg { position: absolute; inset: 0; background: #fff; transition: opacity .7s ease; }
+.intro-content { position: relative; display: flex; flex-direction: column; align-items: center; margin-top: -60px; opacity: 0; }
+.intro-content.on { opacity: 1; animation: introIn .35s ease-out both; }   /* pas als de video kan spelen: tekst en vines komen samen */
+@keyframes introIn { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: none; } }
+.video-wrapper { width: 262px; margin-bottom: 36px; will-change: transform, opacity; }
+.video-wrapper img.still { width: 262px; height: auto; display: block; }
+.video-wrapper video { width: 262px; height: auto; display: block; pointer-events: none; user-select: none; -webkit-user-select: none; }
+.text-block { display: flex; flex-direction: column; align-items: center; gap: 6px; transition: opacity .35s ease; }
+.loading-text, .loading-dots {
+  font-size: 26px; font-weight: 600; color: #1a1a1a; letter-spacing: 3px; text-transform: uppercase; line-height: 1.3;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.loading-dots { height: 1.4em; }
+/* altijd 2 regels: 'Loading' / 'Ancient Magic', grootte schaalt mee met het scherm */
+.loading-text, .loading-dots { font-size: clamp(20px, 6.4vw, 26px); }
+.loading-text span { display: block; white-space: nowrap; }
+.loading-dots::after { content: ''; animation: dotContent 1.5s steps(4, end) infinite; }
+@keyframes dotContent { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } 100% { content: ''; } }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: .4; } 100% { opacity: 1; } }
+
+/* ---------- PAGINA ---------- */
+.page { width: 100%; max-width: 480px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; align-items: center; }
+
+.header-video-wrapper {
+  width: 100vw; position: relative; left: 50%; transform: translateX(-50%);
+  margin-bottom: 8px; overflow: hidden; line-height: 0;
+  height: clamp(135px, 18vw, 220px); /* schaalt mee met de breedte, max 220px zoals de paspoorten */
+}
+.header-video-wrapper video {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block;
+  pointer-events: none; user-select: none; -webkit-user-select: none;
+  transform-origin: 50% 40%; animation: slowZoom 24s ease-in-out infinite alternate;
+}
+/* zachte overgang naar wit onderaan */
+.header-video-wrapper::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 50%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 55%, #fff 100%);
+  pointer-events: none;
+}
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+
+.logo { width: 150px; height: auto; aspect-ratio: 478 / 531; display: block; margin: 8px 0 28px; }
+.brand-title { text-align: center; line-height: 0; }
+.brand-title img { display: block; width: min(300px, 78vw); height: auto; margin: 0 auto; }
+.about-link { display: inline-block; margin-top: 34px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #888; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; transition: color .3s ease; }
+@media (hover: hover) { .about-link:hover { color: #111; } }
+.full-divider { width: 100%; height: 1px; background: #e8e8e8; margin: 32px 0 0; transform-origin: center; }
+.section-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #aaa; padding: 22px 0; line-height: 1; text-align: center; width: 100%; }
+.collection { display: block; width: 100%; border-top: 1px solid #e8e8e8; padding: 24px 0; text-align: center; }
+.collection.soon { border-bottom: 1px solid #e8e8e8; }
+/* Genesis: kleine sterretjes met zachte gloed bij hover/tik */
+.collection { position: relative; }
+.sparkle { position: absolute; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2); pointer-events: none; z-index: 2; opacity: 0;
+  filter: drop-shadow(0 0 2px rgba(255,236,190,.95)) drop-shadow(0 0 6px rgba(222,190,120,.55));
+  animation: sparkle var(--d) cubic-bezier(.2,.6,.3,1) forwards; }
+.sparkle svg { display: block; width: 100%; height: 100%; }
+@keyframes sparkle {
+  0%   { opacity: 0; transform: translate(0, 0) scale(.2) rotate(0deg); }
+  22%  { opacity: 1; transform: translate(calc(var(--dx) * .25), calc(var(--dy) * .25)) scale(1) rotate(25deg); }
+  60%  { opacity: .85; }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.35) rotate(70deg); }
+}
+.collection .name-value { font-size: 30px; font-weight: 300; letter-spacing: 8px; text-transform: uppercase; color: #111; transition: letter-spacing .5s ease; }
+.collection .cta { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: #aaa; margin-top: 10px; transition: color .3s ease; }
+.collection.soon .name-value { color: #bbb; }
+
+/* ---------- ENTREE-ANIMATIES ----------
+   Alles wacht tot <html> de class "go" krijgt. Met intro: op het moment dat het logo geland is.
+   Zonder intro: meteen. */
+.go .about-link { animation: riseIn .8s cubic-bezier(.2,.7,.2,1) .7s both; }
+@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fadeOnly { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.header-video-wrapper, .logo, .brand-title, .full-divider, .section-label, .collection, .about-link { opacity: 0; }
+.go .header-video-wrapper { animation: fadeOnly .8s ease both; }
+.go .logo { animation: riseIn .8s cubic-bezier(.2,.7,.2,1) .05s both; }
+.go .brand-title { animation: riseIn .8s cubic-bezier(.2,.7,.2,1) .15s both; }
+.go .full-divider { animation: lineGrow 1s ease .3s both; opacity: 1; }
+.go .section-label { animation: riseIn .8s cubic-bezier(.2,.7,.2,1) .4s both; }
+.go .collection:not(.soon) { animation: riseIn .8s cubic-bezier(.2,.7,.2,1) .5s both; }
+.go .collection.soon { animation: riseIn .8s cubic-bezier(.2,.7,.2,1) .6s both; }
+/* na de intro staat het logo er al (de video is er precies op geland) */
+/* echte logo staat er in één keer (volledig dekkend) onder het video-logo; daarna fadet alleen de video-laag erboven weg -> geen dip in transparantie */
+.go.landed .logo { animation: none; opacity: 0; }
+.go.landed.logo-in .logo { opacity: 1; }
+
+/* hover (muis) en tik (touch) */
+@media (hover: hover) {
+  .collection:not(.soon):hover .name-value { letter-spacing: 11px; }
+  .collection:not(.soon):hover .cta { color: #111; }
+}
+.collection.tapped .name-value { letter-spacing: 11px; }
+.collection.tapped .cta { color: #111; }
+/* touch: 1x een 'ademende' hint, zodat je ziet dat Genesis klikbaar is */
+@keyframes breathe { 0%,100% { letter-spacing: 8px; } 50% { letter-spacing: 11px; } }
+@media (hover: none) {
+  .go .collection:not(.soon) .name-value { animation: breathe 1.6s ease-in-out 1.6s 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .header-video-wrapper, .logo, .brand-title, .full-divider, .section-label, .collection, .about-link { opacity: 1; }
+}
+</style>
+<link rel="preload" as="image" href="DJ_Logo_Pilar_Vines.png">
+<link rel="preload" as="image" href="DJ_Title_Doric_Jewelry.png">
+</head>
+<body>
+
+<!-- LAADSCHERM -->
+<div class="intro-layer" id="intro" aria-hidden="true">
+  <div class="intro-bg"></div>
+  <div class="intro-content">
+    <div class="video-wrapper">
+      <video id="introVideo" muted playsinline preload="auto" poster="DJ_Logo_Vine_first.jpg" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+        <source src="DJ_Logo_Vine_Video.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="text-block">
+      <p class="loading-text"><span>Loading</span><span>Ancient Magic</span></p>
+      <p class="loading-dots"></p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGINA -->
+<div class="header-video-wrapper">
+  <video autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+    <source src="passport-header-video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="page">
+  <img src="DJ_Logo_Pilar_Vines.png" alt="Doric Jewelry" class="logo" id="logo" width="478" height="531">
+  <h1 class="brand-title"><img src="DJ_Title_Doric_Jewelry.png" alt="Doric Jewelry" width="1000" height="86"></h1>
+
+  <div class="full-divider"></div>
+
+  <p class="section-label">Collections</p>
+
+  <a class="collection" href="genesis.html">
+    <p class="name-value">Genesis</p>
+    <p class="cta">View collection &rarr;</p>
+  </a>
+
+  <a class="collection soon" href="thalassa.html">
+    <p class="name-value">Thalassa</p>
+    <p class="cta">Coming soon</p>
+  </a>
+
+  <a class="about-link" href="about.html">About Doric Jewelry</a>
+</div>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function startPage(){ root.classList.add('go'); }
+
+  if (!root.classList.contains('intro')) { startPage(); return; }
+
+  var layer = document.getElementById('intro');
+  var bg = layer.querySelector('.intro-bg');
+  var wrap = layer.querySelector('.video-wrapper');
+  var text = layer.querySelector('.text-block');
+  var vid = document.getElementById('introVideo');
+  // stilstaand laatste beeld: tijdens het schuiven/faden bewegen we een foto i.p.v. de video (video-lagen geven soms een zwarte flits)
+  var still = new Image(); still.className = 'still'; still.alt = ''; still.src = 'DJ_Logo_Vine_last.jpg';
+  if (still.decode) still.decode().catch(function(){});
+  var logo = document.getElementById('logo');
+  var done = false;
+
+  function finishIntro(){
+    root.classList.remove('intro');
+    layer.remove();
+  }
+
+  /* Logo-box in het videobeeld (gemeten op het laatste frame) */
+  var BOX_L = 0.091, BOX_R = 0.887, BOX_T = 0.056;   /* exact uitgemeten: het home-logo is uit dit laatste frame geknipt */
+
+  function land(){
+    if (done) return; done = true;
+    if (reduce) { startPage(); bg.style.opacity = '0'; setTimeout(finishIntro, 50); return; }
+
+    // 0. video vervangen door het identieke stilstaande eindbeeld (alleen als dat al geladen is)
+    if (still.complete && still.naturalWidth) { wrap.appendChild(still); vid.style.display = 'none'; try { vid.pause(); } catch(e) {} }
+    // 1. tekst weg, video schuift en krimpt naar de exacte plek van het echte logo
+    var L = logo.getBoundingClientRect();
+    var r = wrap.getBoundingClientRect();
+    var targetW = L.width / (BOX_R - BOX_L);
+    var s = targetW / r.width;
+    var dx = (L.left - BOX_L * targetW) - r.left;
+    var dy = (L.top - BOX_T * targetW) - r.top;
+    var MOVE = 720;
+    layer.querySelector('.intro-content').style.animation = 'none';
+    text.style.opacity = '0';
+    wrap.style.transformOrigin = '0 0';
+    wrap.style.transition = 'transform ' + MOVE + 'ms cubic-bezier(.65,0,.35,1), opacity 450ms ease';
+    requestAnimationFrame(function(){
+      wrap.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')';
+    });
+
+    // 2. vlak voor de landing: de rest van de pagina begint al te verschijnen, wit vlak fadet weg
+    setTimeout(function(){
+      root.classList.add('landed');
+      startPage();
+      bg.style.opacity = '0';
+    }, MOVE - 250);
+
+    // 3. pas als het logo stilstaat: rustige crossfade (0,6s) van video-logo naar het echte logo
+    setTimeout(function(){
+      root.classList.add('logo-in');                     // echte logo: direct 100% eronder
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        wrap.style.opacity = '0';                        // pas daarna de bovenste laag wegfaden
+      }); });
+    }, MOVE + 30);
+    setTimeout(finishIntro, MOVE + 520);
+  }
+
+  // doorgaan als hij klaar is, zodat het eindbeeld = het vine-logo
+  // de video zelf is al 2x versneld (1,9s, 50 beelden/sec), dus gewoon normaal afspelen: geen haperende frames
+  vid.addEventListener('ended', land);
+  var started = false;
+  function begin(){
+    if (started) return; started = true;
+    layer.querySelector('.intro-content').classList.add('on');
+    var p; try { p = vid.play(); } catch(e) {}
+    if (p && p.catch) p.catch(function(){ land(); });   // autoplay geblokkeerd: meteen door
+    setTimeout(land, 3200);                              // noodrem
+  }
+  if (vid.readyState >= 3) begin(); else vid.addEventListener('canplay', begin);
+  setTimeout(begin, 1500);                               // traag internet: niet eeuwig op wit wachten
+})();
+
+/* touch: tik-animatie eerst laten zien, dan pas naar de pagina */
+(function(){
+  var touch = window.matchMedia('(hover: none)').matches;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* sterretjes boven 'Genesis': rustig zweven bij hover, een klein wolkje bij tikken */
+  var gen = document.querySelector('a.collection:not(.soon)'), STAR = '<svg viewBox="0 0 10 10"><path d="M5 0C5.5 3.3 6.7 4.5 10 5 6.7 5.5 5.5 6.7 5 10 4.5 6.7 3.3 5.5 0 5 3.3 4.5 4.5 3.3 5 0Z" fill="#ecd29a"/></svg>';
+  function sparkle(){
+    if (reduce) return;
+    var rg = document.createRange(); rg.selectNodeContents(gen.querySelector('.name-value'));
+    var g = gen.getBoundingClientRect(), r = rg.getBoundingClientRect();   // alleen rond het woord zelf
+    var s = document.createElement('span'); s.className = 'sparkle'; s.innerHTML = STAR;
+    var size = 5 + Math.random() * 6, dur = 1100 + Math.random() * 900;
+    s.style.left = (r.left - g.left - 14 + Math.random() * (r.width + 28)) + 'px';
+    s.style.top = (r.top - g.top + r.height * (.15 + Math.random() * .8)) + 'px';
+    s.style.setProperty('--s', size + 'px'); s.style.setProperty('--d', dur + 'ms');
+    s.style.setProperty('--dx', (Math.random() * 16 - 8) + 'px'); s.style.setProperty('--dy', -(14 + Math.random() * 22) + 'px');
+    gen.appendChild(s); setTimeout(function(){ s.remove(); }, dur + 50);
+  }
+  var hov = null;
+  gen.addEventListener('mouseenter', function(){ if (touch || hov) return; sparkle(); hov = setInterval(sparkle, 170); });
+  gen.addEventListener('mouseleave', function(){ clearInterval(hov); hov = null; });
+  gen.addEventListener('pointerdown', function(e){ if (e.pointerType === 'mouse') return; for (var k = 0; k < 9; k++) setTimeout(sparkle, k * 55); });
+  /* Genesis: altijd eerst de sterretjes, dan zacht de pagina uitfaden en door */
+  gen.addEventListener('click', function(e){
+    if (reduce || e.metaKey || e.ctrlKey || gen.classList.contains('tapped')) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    gen.classList.add('tapped');
+    if (!touch) for (var k = 0; k < 9; k++) setTimeout(sparkle, k * 55);
+    setTimeout(function(){ document.body.style.transition = 'opacity .4s ease'; document.body.style.opacity = '0'; }, 420);
+    setTimeout(function(){ location.href = gen.href; }, 820);
+  });
+  document.querySelectorAll('a.collection').forEach(function(a){
+    a.addEventListener('click', function(e){
+      if (!touch || reduce || a.classList.contains('tapped')) return;
+      e.preventDefault();
+      a.classList.add('tapped');
+      setTimeout(function(){ location.href = a.href; }, a === gen ? 750 : 450);   // even de sterretjes laten zien
+    });
+  });
+  window.addEventListener('pageshow', function(){
+    document.querySelectorAll('.collection.tapped').forEach(function(a){ a.classList.remove('tapped'); });
+    document.body.style.transition = 'none'; document.body.style.opacity = '';
+  });
+})();
+</script>
+</body>
+</html>

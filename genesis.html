@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genesis – Doric Jewelry</title>
+<script>
+/* altijd bovenaan beginnen: bij laden én bij terugkomen (ook via de terug-knop van de browser) */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+window.addEventListener('pageshow', function(){ window.scrollTo(0, 0); });
+window.addEventListener('load', function(){ window.scrollTo(0, 0); });
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; overscroll-behavior-x: none; }
+body { background: #ffffff; min-height: 100vh; padding: 0 0 80px; font-family: 'Georgia', serif; color: #111; }
+@keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+body { animation: pageIn .6s ease both; }   /* zachte overgang vanaf de startpagina */
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+
+:root {
+  --sage: #5f7f5a;          /* groen van de vines */
+  --sage-ink: #34502f;
+}
+
+/* ---------- BANNER ---------- */
+.header-video-wrapper {
+  width: 100vw; position: relative; left: 50%; transform: translateX(-50%);
+  overflow: hidden; line-height: 0;
+  height: clamp(135px, 18vw, 220px);
+}
+.header-video-wrapper video {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block;
+  pointer-events: none; user-select: none; -webkit-user-select: none;
+  transform-origin: 50% 40%; animation: slowZoom 24s ease-in-out infinite alternate;
+}
+.header-video-wrapper::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 50%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 55%, #fff 100%);
+  pointer-events: none; z-index: 1;
+}
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+@keyframes fadeOnly { from { opacity: 0; } to { opacity: 1; } }
+.header-video-wrapper { animation: fadeOnly .8s ease both; }
+
+.glass-chip {
+position: absolute;
+top: 44%;
+left: 50%;
+transform: translate(-50%, -50%);
+z-index: 2;
+display: flex;
+align-items: center;
+justify-content: center;
+--lw: clamp(124px, 15vw, 196px);   /* logo-breedte: schaalt mee met het scherm (en dus met de banner) */
+padding: calc(var(--lw) * .065) calc(var(--lw) * .115);
+border-radius: calc(var(--lw) * .15);
+border: 1px solid rgba(255, 255, 255, 0.28);
+box-shadow: 0 4px 16px rgba(31, 38, 135, 0.10), inset 0 1px 3px rgba(255, 255, 255, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.10);
+will-change: backdrop-filter;
+background: rgba(255, 255, 255, 0.08);
+backdrop-filter: url(#liquidGlassFilter) saturate(160%);
+-webkit-backdrop-filter: blur(4px) saturate(160%);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+.glass-chip {
+background: rgba(255, 255, 255, 0.55);
+}
+}
+
+.glass-chip.safari-glass {
+overflow: hidden;
+background: rgba(255, 255, 255, 0.14);
+backdrop-filter: none;
+-webkit-backdrop-filter: none;
+}
+
+.safari-glass-canvas {
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+filter: saturate(1.6) contrast(1.05);
+z-index: 0;
+pointer-events: none;
+}
+
+.passport-logo-overlay {
+width: var(--lw, 150px);
+height: auto;
+display: block;
+position: relative;
+z-index: 3;
+}
+
+@media (max-width: 480px) {
+}
+
+
+
+/* glazen logo pas laten zien als het effect klaar is (anders knippert hij bij het laden) */
+#glassChip { opacity: 0; transition: opacity .7s ease; }
+#glassChip.ready { opacity: 1; }
+
+/* ---------- PAGINA ---------- */
+.page { width: 100%; max-width: 560px; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; align-items: center; }
+.top-bar { width: 100%; display: flex; justify-content: flex-start; padding: 6px 0 0; }
+.back { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #111; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; }
+
+.head { text-align: center; padding: 20px 0 0; }
+.head-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #aaa; margin-bottom: 12px; }
+.head-title { font-size: 34px; font-weight: 300; letter-spacing: 10px; margin-right: -10px; text-transform: uppercase; color: #111; }
+.divider { width: 100%; height: 1px; background: #e0e0e0; margin: 16px 0 30px; transform-origin: center; }
+
+.grid { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: var(--row-gap) 14px; --row-gap: 20px; }
+.piece { display: flex; flex-direction: column; align-items: center; text-align: center; container-type: inline-size; --r: 10cqw; }  /* 10% van de breedte: max rond zonder het D-logo linksboven te raken */
+/* afgeronde hoeken in % van de foto: schaalt mee en blijft altijd buiten het D-logo linksboven (dat begint op ~3,6% van de rand) */
+.piece-img { width: 100%; aspect-ratio: 4 / 5; overflow: visible; background: #f3f3f3; display: block; cursor: zoom-in; border-radius: 16px; border-radius: var(--r); isolation: isolate; }
+.piece-img { position: relative; cursor: zoom-in; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.piece-img.dragging, .lb-frame.dragging { cursor: grabbing; }
+/* venster-carrousel: elke foto ligt in hetzelfde afgeronde venster, schuift met parallax en fade */
+.car { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; }
+.cslide { position: absolute; inset: 0; overflow: hidden; will-change: transform; transform: translateZ(0); }
+.cslide .ph { position: absolute; inset: 0; will-change: transform; backface-visibility: hidden; }
+/* fold-venster: blad met vaste foto-projectie, wazig + donker naar de vrije rand */
+/* (geen eigen ronding: het venster knipt af, zodat de naad tussen foto's recht is) */
+.cslide b, .cslide i, .cslide u, .cslide c { position: absolute; inset: 0; opacity: 0; pointer-events: none; display: block; }
+.cslide c { display: none; }
+.cslide:not(.turning) b, .cslide:not(.turning) i { opacity: 0 !important; }
+.cslide b { background-size: cover; background-position: center; filter: blur(var(--blur, 8px)) saturate(1.15); transform: scale(1.06); }
+.cslide u { background: linear-gradient(to right, rgba(0,0,0,.5), rgba(0,0,0,0) 45%); }
+.cslide.rev u { background: linear-gradient(to left, rgba(0,0,0,.5), rgba(0,0,0,0) 45%); }
+.cslide img { width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; user-select: none; pointer-events: none; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+/* bolletjes: er zijn meer foto's */
+/* 'Story'-labeltje: vast bovenin de foto (swipet niet mee), zelfde glas en afstand als 'Summon its story' */
+.story-tag { position: absolute; top: calc(var(--r) * .5); right: calc(var(--r) * .5); z-index: 4; white-space: nowrap;
+  display: flex; align-items: center; padding: 5px 11px; border-radius: 999px;
+  font-size: 8.5px; letter-spacing: 1.6px; text-transform: uppercase; color: #111;
+  background: rgba(255,255,255,.12); border: 0;
+  box-shadow: 0 3px 10px rgba(0,0,0,.06),
+    inset 0 2px 3px -1px rgba(255,255,255,.75),              /* licht over de bolle bovenrand */
+    inset 0 -2px 3px -1px rgba(255,255,255,.35);
+  backdrop-filter: url(#lgStoryFilter) saturate(160%);
+  -webkit-backdrop-filter: blur(3px) saturate(170%) brightness(1.06);
+  cursor: pointer; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+.story-tag.dragging { transition: none; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .story-tag { background: rgba(255,255,255,.75); } }
+.dots { position: absolute; left: 50%; transform: translateX(-50%); top: 100%; height: 20px; padding: 0 14px; display: flex; align-items: center; justify-content: center; gap: 8px; z-index: 3; cursor: pointer; }
+.dots:empty { display: none; }
+.dot { position: relative; width: 5px; height: 5px; border-radius: 3px; background: #d6d6d6; transition: width .3s ease, background .3s ease; }
+.dot::after { content: ""; position: absolute; inset: -8px -4px; } /* groter tik-vlak */
+.dot.on { width: 14px; background: #8a8a8a; }
+@media (hover: hover) { .piece-img:not(.dragging):hover .cslide img { transform: scale(1.04); } }
+.piece-name { font-size: 15px; letter-spacing: 4px; margin-right: -4px; text-transform: uppercase; color: #111; margin-top: 14px; }
+.piece-price { font-size: 13px; letter-spacing: 1px; color: #777; margin-top: 14px; }
+
+/* ---------- BUY HERE: grijs glas, groen bij hover/tik ---------- */
+.buy {
+  position: relative; display: block; width: 100%; margin-top: 20px; /* zelfde als --row-gap: alles op gelijke afstand */ white-space: nowrap; padding: 13px 0;
+  border-radius: 16px; border-radius: var(--r); text-align: center;
+  font-size: clamp(9.5px, 2.7vw, 11px); letter-spacing: 2px; text-transform: uppercase; color: #333;
+  /* liquid glass: heldere rand, glanslicht bovenin, zachte lichtbreking onderin, lichte tint */
+  background:
+    radial-gradient(120% 90% at 50% -20%, rgba(255,255,255,.6) 0%, rgba(255,255,255,0) 55%),
+    linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 45%, rgba(255,255,255,.15) 100%),
+    rgba(104,104,112,.27);
+  border: 0;   /* geen harde rand meer: de rand is gebogen glas (schaduwen + ::after) */
+  box-shadow:
+    0 6px 18px rgba(0,0,0,.07),
+    0 11px 20px -9px rgba(var(--c), var(--glow, 0)),   /* gekleurd licht eronder: alleen bij hover/tik/slepen */
+    inset 0 3px 4px -2px rgba(255,255,255,.95),     /* licht dat over de bolle bovenrand valt */
+    inset 0 -3px 5px -2px rgba(255,255,255,.6),     /* caustic onderin */
+    /* dispersie: roze en blauw diagonaal tegenover elkaar */
+    inset calc(var(--dx, .707) * 4px) calc(var(--dy, .707) * 4px) 6px -3px rgba(255,105,170,.36),    /* roze, diagonaal; draait met de klok mee als je scrollt */
+    inset calc(var(--dx, .707) * -4px) calc(var(--dy, .707) * -4px) 6px -3px rgba(80,165,255,.38),  /* blauw, er recht tegenover */
+    inset 0 0 9px rgba(0,0,0,.035),                 /* glas wordt dikker naar de rand toe */
+    inset 0 -6px 12px rgba(255,255,255,.3);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  backdrop-filter: blur(10px) saturate(180%);
+  overflow: hidden; isolation: isolate;
+  transition: background .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease, transform .45s cubic-bezier(.34,1.56,.64,1);
+}
+/* lichtvlek die je vinger/muis volgt, zoals bij Apple's liquid glass */
+.buy::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .3s ease;
+  background: radial-gradient(56px 38px at var(--mx, 50%) var(--my, 0%), rgba(255,255,255,.32), rgba(255,255,255,0) 70%); }
+.buy:hover::before, .buy.tapped::before { opacity: 1; }
+/* glazen rand met prisma-effect: helder waar het licht valt, een zweem regenboog in de bochten */
+.buy::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 1;
+  background-image: linear-gradient(calc(var(--ang, 135) * 1deg),
+    rgba(255,170,210,.75) 0%, rgba(255,235,190,.3) 18%, rgba(255,255,255,0) 38%,
+    rgba(255,255,255,0) 62%, rgba(170,235,220,.3) 82%, rgba(140,180,255,.75) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  filter: blur(.4px);
+  opacity: .8; transition: opacity .35s ease; }
+.buy:hover::after, .buy.tapped::after { opacity: .55; }
+/* indrukken: verend, alsof het glas meegeeft */
+.buy:active { transform: scale(.97, .94); transition-duration: .12s; }
+.buy:active, .buy.dragging { --glow: .46; }
+.buy.dragging { transition: background .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease; }   /* tijdens slepen volgt hij je direct */
+/* hover (laptop) / tik (telefoon): de knop krijgt de achtergrondkleur van die ketting-foto, met glas-glans */
+.buy { --c: 95,127,90; --ink: #fff; touch-action: pan-y; -webkit-user-drag: none; -webkit-touch-callout: none; user-select: none; }
+@media (hover: hover) {
+  .buy:hover {
+    color: var(--ink);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.45) 0%, rgba(255,255,255,0) 55%),
+      rgba(var(--c), .9);
+    border-color: rgba(var(--c), 1);
+    box-shadow: 0 8px 22px rgba(var(--c), .45), inset 0 1px 1px rgba(255,255,255,.9), inset 0 -1px 1px rgba(0,0,0,.12), inset 0 -6px 12px rgba(255,255,255,.25);
+    transform: scale(1.02);
+  }
+}
+.buy.tapped {
+  color: var(--ink); transform: scale(.97);
+  background: linear-gradient(180deg, rgba(255,255,255,.45) 0%, rgba(255,255,255,0) 55%), rgba(var(--c), .9);
+  border-color: rgba(var(--c), 1);
+  box-shadow: 0 6px 18px rgba(var(--c), .45), inset 0 1px 2px rgba(255,255,255,.7), inset 0 -3px 6px rgba(0,0,0,.15);
+}
+
+.note { width: 100%; margin-top: 20px; text-align: center; } /* zelfde afstand als tussen foto's en knoppen */
+/* streepje dat openschuift (net als onder GENESIS) zodra je ernaartoe scrolt */
+.note-line { width: 100%; height: 1px; background: #e0e0e0; margin-bottom: 28px; transform: scaleX(0); transform-origin: center; transition: transform 1.4s cubic-bezier(.25,.8,.25,1); }
+.note-line.in { transform: scaleX(1); }
+.note-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #aaa; margin-bottom: 12px; }
+.note-text { font-size: 13px; font-style: italic; color: #222; line-height: 1.7; max-width: 48ch; margin: 0 auto; text-wrap: balance; }
+
+.usp { width: 100%; display: flex; flex-direction: row; align-items: center; gap: 14px; text-align: center; container-type: inline-size; animation: riseIn .8s cubic-bezier(.2,.7,.2,1) .3s both; }
+.usp-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+.usp-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #aaa; }
+.usp-video { position: relative; }
+.usp-video { --vw: calc((100cqw - 14px) / 2);   /* precies de breedte van één foto in het grid eronder */
+  --vr: calc(var(--vw) * 0.10); --gap: calc(var(--vr) * .5); flex: none; }
+/* labeltje: even ver van de bovenkant als van de zijkanten, met concentrische (meelopende) hoeken */
+.usp-tap { position: absolute; top: var(--gap); left: calc(var(--gap) * .86); right: calc(var(--gap) * .86);   /* zijkant iets smaller: het glas heeft een zachte rand, zo oogt de afstand overal gelijk */ z-index: 2; white-space: nowrap;
+  display: flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 10px;
+  border-radius: calc(var(--vr) * (1 - 2 * var(--gap) / var(--vw)));   /* zelfde ronding als het kader, geschaald naar de breedte van het labeltje */
+  font-size: 8.5px; letter-spacing: 1.1px; text-transform: uppercase; color: #111;
+  background: rgba(255,255,255,.14); border: 0;
+  box-shadow: 0 3px 10px rgba(0,0,0,.06),
+    inset 0 2px 3px -1px rgba(255,255,255,.75), inset 0 -2px 3px -1px rgba(255,255,255,.35);
+  backdrop-filter: url(#lgPillFilter) saturate(160%);
+  -webkit-backdrop-filter: blur(3px) saturate(170%) brightness(1.06);
+  pointer-events: auto; cursor: default; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+.usp-tap.dragging { transition: none; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .usp-tap { background: rgba(255,255,255,.75); } }
+.usp-tap.safari-glass { background: rgba(255,255,255,.08); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.usp-tap > svg, .usp-tap > span { position: relative; z-index: 1; }
+/* zachte stuiter-hint: je ziet dat je op de video kunt tikken */
+.usp-video { cursor: zoom-in; }
+/* afgerond kader om de video; bij de bounce krimpt alleen het kader, de video schaalt precies tegengesteld en staat dus stil */
+.uv-frame { position: absolute; inset: 0; border-radius: var(--vr); overflow: hidden; background: #f3f3f3;
+  -webkit-mask-image: -webkit-radial-gradient(white, black); isolation: isolate; transform: translateZ(0); }
+@keyframes uvFrame { 0%, 60%, 100% { transform: translateZ(0) scale(1); } 35% { transform: translateZ(0) scale(.972); } 78% { transform: translateZ(0) scale(.99); } }
+@keyframes uvVid   { 0%, 60%, 100% { transform: scale(1); } 35% { transform: scale(1.0288); } 78% { transform: scale(1.0101); } }
+.usp-video.bounce .uv-frame { animation: uvFrame .9s ease-in-out; }
+.usp-video.bounce .uv-frame video { animation: uvVid .9s ease-in-out; }
+
+/* video groot */
+.vbox { position: fixed; inset: 0; z-index: 110; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 56px 16px 24px; visibility: hidden; pointer-events: none; --show: 0; }
+.vbox.open { visibility: visible; pointer-events: auto; }
+.vbox-bg { position: absolute; inset: 0; background: rgba(255,255,255,.92); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); opacity: var(--show); }
+.vbox-close, .vbox-hint { position: relative; z-index: 1; opacity: var(--show); }
+.vbox-close { position: absolute; top: 14px; right: 16px; }
+.vbox.fade .vbox-bg, .vbox.fade .vbox-close, .vbox.fade .vbox-hint { transition: opacity .38s ease; }
+.vbox-frame { --fw: min(92vw, calc(min(78vh, 760px) * 9 / 16)); position: relative; z-index: 2; width: var(--fw); aspect-ratio: 9 / 16; border-radius: calc(var(--fw) * 0.10); overflow: hidden; background: #f3f3f3; transform-origin: 0 0; will-change: transform; touch-action: none; }
+.vbox-frame video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.vbox .lb-hint.vbox-hint { margin: 30px 0 0; }   /* de algemene .lb-hint-regel zette hem anders weer tegen de video aan */
+.nfc { width: 18px; height: 18px; color: #111; flex: none; }
+/* NFC-golfjes lichten een voor een op, als een signaal dat uitzendt */
+.nfc .w { opacity: .15; animation: nfcPulse 1.8s ease-in-out infinite; }
+.nfc .w2 { animation-delay: .2s; } .nfc .w3 { animation-delay: .4s; }
+@keyframes nfcPulse { 0%, 100% { opacity: .15; } 30% { opacity: 1; } 60% { opacity: .15; } }
+.usp-video { width: var(--vw); aspect-ratio: 9 / 16; margin-top: 0; border-radius: var(--vr); overflow: visible; isolation: isolate; }
+.usp-video video { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+.usp-text { font-size: 13px; font-style: italic; color: #222; line-height: 1.7; text-wrap: balance; text-align: center; }
+.usp-divider { margin: 28px 0 30px; }
+.grid-hint { margin: -8px 0 18px; text-align: center; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #aaa; }
+
+.buy-sep { opacity: .5; margin: 0 .3em; }
+
+/* ---------- FOTO GROOT BEKIJKEN ---------- */
+.lightbox {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; flex-direction: column; align-items: center; justify-content: safe center;
+  padding: 56px 16px 28px;
+  --lbw: min(92vw, 520px, calc((100vh - 380px) * .8));
+  --lbw: min(92vw, 520px, calc((100svh - 380px) * .8));
+  overflow-y: auto; overscroll-behavior: contain;
+  visibility: hidden; pointer-events: none;
+  --show: 0;                         /* 0 = dicht, 1 = open (ook tijdens wegswipen) */
+}
+.lightbox.open { visibility: visible; pointer-events: auto; }
+.lb-bg {
+  position: fixed; inset: 0; z-index: 0;
+  background: rgba(255,255,255,.92);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  opacity: var(--show);
+}
+.lb-close, .lb-hint, .lb-buy, .lb-desc { position: relative; z-index: 1; opacity: var(--show); }
+.lightbox.fade .lb-bg, .lightbox.fade .lb-close, .lightbox.fade .lb-hint, .lightbox.fade .lb-desc { transition: opacity .38s ease; }
+/* Buy-knop in de grote weergave: zelfde kleur-fade als in het grid, plus de fade bij openen/sluiten */
+.lb-buy, .lightbox.fade .lb-buy { transition: opacity .38s ease, background .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease, transform .45s cubic-bezier(.34,1.56,.64,1); }
+.lb-close { position: fixed; top: 14px; right: 16px; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; padding: 8px; }
+.lb-frame {
+  position: relative; z-index: 2;
+  width: var(--lbw); aspect-ratio: 4 / 5; overflow: visible;
+  touch-action: none; cursor: zoom-in; background: #f3f3f3;
+  border-radius: calc(var(--lbw) * 0.10); isolation: isolate;
+  transform-origin: 0 0; will-change: transform;
+}
+.lb-frame.zoomed { cursor: zoom-out; }
+.lb-frame .cslide img { transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+.lb-desc { width: min(88vw, 360px); margin: 16px 0 0; font-size: 12.5px; line-height: 1.65; color: #6a6a6a; text-align: center; text-wrap: pretty; }
+.lb-desc .ttl { display: block; font-size: clamp(14px, 4.6vw, 19px); font-weight: bold; -webkit-text-stroke: .35px currentColor; letter-spacing: 2px; text-transform: uppercase; color: #111; margin-bottom: 9px; white-space: nowrap; }
+.lb-desc .ttl b { font-weight: bold; }
+.lb-desc .ttl .sp { opacity: .45; margin: 0 .45em; }
+.lb-hint { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin: 0 0 16px; min-height: 1.2em; text-align: center; }
+.lb-buy { width: min(70vw, 280px); margin-top: 18px; border-radius: calc(var(--lbw) * 0.10); }
+.no-scroll { overflow: hidden; }
+
+/* ---------- ENTREE ---------- */
+@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.top-bar, .head-label, .head-title, .piece, .note { animation: riseIn .8s cubic-bezier(.2,.7,.2,1) both; }
+.top-bar { animation-delay: .05s; }
+.head-label { animation-delay: .12s; }
+.head-title { animation-delay: .2s; }
+.divider { animation: lineGrow 1.4s cubic-bezier(.25,.8,.25,1) .55s both; }
+.note { animation-delay: .9s; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<link rel="preload" href="passport-header-poster.jpg" as="image" fetchpriority="high">
+<link rel="preload" href="doric-logo-text.png" as="image" fetchpriority="high">
+
+<div class="header-video-wrapper">
+  <video autoplay muted loop playsinline preload="auto" poster="passport-header-poster.jpg" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+    <source src="passport-header-video.mp4" type="video/mp4">
+  </video>
+  <svg width="0" height="0" style="position:absolute;overflow:hidden">
+<filter id="liquidGlassFilter" x="-55%" y="-55%" width="210%" height="210%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+<feImage id="glassDisplacementMap" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="map"/>
+<feGaussianBlur in="SourceGraphic" stdDeviation="0.007" result="blurred"/>
+<feDisplacementMap in="blurred" in2="map" scale="0.30" xChannelSelector="R" yChannelSelector="G" edgeMode="duplicate" result="dispG"/>
+<feDisplacementMap in="blurred" in2="map" scale="0.53" xChannelSelector="R" yChannelSelector="G" edgeMode="duplicate" result="dispR"/>
+<feDisplacementMap in="blurred" in2="map" scale="0.07" xChannelSelector="R" yChannelSelector="G" edgeMode="duplicate" result="dispB"/>
+<feColorMatrix in="dispR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="rOnly"/>
+<feColorMatrix in="dispG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="gOnly"/>
+<feColorMatrix in="dispB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="bOnly"/>
+<feBlend in="rOnly" in2="gOnly" mode="screen" result="rgBlend"/>
+<feBlend in="rgBlend" in2="bOnly" mode="screen"/>
+</filter>
+</svg>
+  <div class="glass-chip" id="glassChip">
+<img src="doric-logo-text.png" alt="Doric Jewelry" class="passport-logo-overlay" fetchpriority="high" decoding="sync">
+</div>
+</div>
+
+<div class="page">
+  <div class="top-bar"><a class="back" href="index.html#home">&larr; Back</a></div>
+
+  <div class="head">
+    <p class="head-label">Collection</p>
+    <h1 class="head-title">Genesis</h1>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- USP: sieraadpaspoort -->
+  <section class="usp" aria-label="Jewelry passport">
+    <div class="usp-video" id="uspBox" role="button" tabindex="0" aria-label="Watch the jewelry passport video larger">
+      <div class="uv-frame"><video id="uspVideo" muted playsinline loop preload="metadata" poster="DJ_Promo_NFC_poster.jpg" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+        <source src="DJ_Promo_NFC_web.mp4" type="video/mp4">
+      </video></div>
+      <!-- uitleg in de video: glazen labeltje bovenin -->
+      <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+        <filter id="lgPillFilter" x="-55%" y="-55%" width="210%" height="210%" primitiveUnits="objectBoundingBox" color-interpolation-filters="sRGB">
+          <feImage id="lgPillMap" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="map"/>
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0.006" result="blurred"/>
+          <feDisplacementMap in="blurred" in2="map" scale="0.30" xChannelSelector="R" yChannelSelector="B" edgeMode="duplicate" result="dispG"/>
+          <feDisplacementMap in="blurred" in2="map" scale="0.53" xChannelSelector="R" yChannelSelector="B" edgeMode="duplicate" result="dispR"/>
+          <feDisplacementMap in="blurred" in2="map" scale="0.07" xChannelSelector="R" yChannelSelector="B" edgeMode="duplicate" result="dispB"/>
+          <feColorMatrix in="dispR" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="rOnly"/>
+          <feColorMatrix in="dispG" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="gOnly"/>
+          <feColorMatrix in="dispB" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="bOnly"/>
+          <feBlend in="rOnly" in2="gOnly" mode="screen" result="rgBlend"/>
+          <feBlend in="rgBlend" in2="bOnly" mode="screen"/>
+        </filter>
+      </svg>
+      <div class="usp-tap" role="button" aria-label="Summon its story">
+        <svg class="nfc" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="4" y="9" width="9" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+          <path class="w w1" d="M17 12.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path class="w w2" d="M20 10a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path class="w w3" d="M23 7.5a13 13 0 0 1 0 17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span>Summon its story</span>
+      </div>
+    </div>
+    <div class="usp-copy">
+      <p class="usp-label">Jewelry Passport</p>
+      <p class="usp-text">Every piece comes with its own digital passport. Tap the logo on the box and unlock its story, the secrets of its stones and how to keep it shining.</p>
+    </div>
+  </section>
+  <div class="divider usp-divider"></div>
+
+  <p class="grid-hint">Tap a piece for its story</p>
+  <div class="grid" id="grid"></div>
+
+  <div class="note">
+    <div class="note-line" id="noteLine"></div>
+    <p class="note-label">Made to order</p>
+    <p class="note-text">Every piece is handmade. Order on Vinted and your necklace will be made just for you.</p>
+  </div>
+</div>
+
+<!-- foto groot -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lb-bg" id="lbBg"></div>
+  <button class="lb-close" id="lbClose" type="button">Close &times;</button>
+  <p class="lb-hint" id="lbHint">Tap to zoom</p>
+  <div class="lb-frame" id="lbFrame"><div class="car"></div><div class="dots lb-dots"></div></div>
+  <a class="buy lb-buy" id="lbBuy" href="#" target="_blank" rel="noopener">Buy here</a>
+  <p class="lb-desc" id="lbDesc"></p>
+</div>
+
+<!-- paspoort-video groot -->
+<div class="vbox" id="vbox" aria-hidden="true">
+  <div class="vbox-bg" id="vboxBg"></div>
+  <button class="lb-close vbox-close" id="vboxClose" type="button">Close &times;</button>
+  <div class="vbox-frame" id="vboxFrame">
+    <video id="vboxVideo" muted playsinline loop preload="none" poster="DJ_Promo_NFC_poster.jpg" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+      <source src="DJ_Promo_NFC_web.mp4" type="video/mp4">
+    </video>
+  </div>
+  <p class="lb-hint vbox-hint">Swipe down to close</p>
+</div>
+
+<script>
+/* ===== HIER AANPASSEN: vervang '#' door de Vinted-link van elke ketting =====
+   photos: de foto's per ketting, in volgorde (eerste = de foto die je eerst ziet) */
+var PIECES = [
+  { name: "Aphrodite", price: "39,95", photos: ["aphrodite", "aphrodite_ruin"], c: "183,141,155", ink: "#6e2f47", vinted: "#", tc: "#9a5b72", stone: "Rose Quartz", desc: "Named after Aphrodite, the Greek goddess of love, beauty, desire, and passion. Just as Aphrodite embodies affection and harmony, Rose Quartz has long been admired as a symbol of love and emotional warmth." },
+  { name: "Argos",     price: "39,95", photos: ["argos", "argos_ruin"],         c: "110,82,65",   ink: "#4e2b0c", vinted: "#", tc: "#4e2b0d", stone: "Tiger’s Eye", desc: "Named after Argos Panoptes, the hundred-eyed guardian of Greek mythology. His unwavering vigilance and constant watchfulness reflect the shimmering bands of Tiger’s Eye, reminiscent of an ever-watchful eye." },
+  { name: "Cleopatra", price: "39,95", photos: ["cleopatra", "cleopatra_ruin"], c: "144,178,206", ink: "#14305a", vinted: "#", tc: "#112c52", stone: "Lapis Lazuli", desc: "Named after Cleopatra VII, the last Greek queen of Ancient Egypt and final ruler of the Ptolemaic Kingdom. Her intelligence, influence, and enduring legacy reflect the timeless elegance of Lapis Lazuli." },
+  { name: "Elaia",     price: "39,95", photos: ["elaia", "elaia_ruin"],         c: "198,232,195", ink: "#2f5a3a", vinted: "#", tc: "#406046", stone: "Green Aventurine", desc: "Named after Elaia, the Ancient Greek word for the olive tree. Revered throughout Ancient Greece as a symbol of peace, prosperity, and renewal, the olive tree became one of the civilization's most enduring emblems. Its timeless symbolism closely reflects the traditional associations of Green Aventurine." },
+  { name: "Hecate",    price: "39,95", photos: ["hecate", "hecate_ruin"],       c: "170,161,214", ink: "#3e3170", vinted: "#", tc: "#473a75", stone: "Amethyst", desc: "Named after Hecate, the Greek goddess of magic, mystery, and hidden knowledge. Often associated with intuition and guidance through times of uncertainty, Hecate reflects the traditional qualities long attributed to Amethyst." },
+  { name: "Nyx",       price: "39,95", photos: ["nyx", "nyx_ruin"],             c: "55,55,55",    ink: "#ffffff", vinted: "#", tc: "#101010", stone: "Obsidian", desc: "Named after Nyx, the ancient Greek personification of the night. As one of the oldest and most powerful deities in Greek mythology, she embodies mystery, strength, and the unknown, reflecting the timeless qualities traditionally associated with Obsidian." },
+  { name: "Selas",     price: "39,95", photos: ["selas", "selas_ruin"],         c: "119,119,119", ink: "#3d3d3d", vinted: "#", tc: "#3c3c3c", stone: "Labradorite", desc: "Named after Selas, the Ancient Greek word for a luminous phenomenon, inspired by the hidden flashes of light revealed within labradorite." },
+  { name: "Tholos",    price: "39,95", photos: ["tholos", "tholos_ruin"],       c: "163,163,163", ink: "#333333", vinted: "#", tc: "#787878", stone: "White Howlite", desc: "Named after the Tholos, the circular temple of Ancient Greece. Its timeless architecture shaped the foundation of Doric, inspiring the design language behind every necklace in the Genesis collection. The continuous circular form reflects the temple itself, while each individual bead represents one of its surrounding columns." }
+];
+/* ============================================================================ */
+
+var touch = window.matchMedia('(hover: none)').matches;
+var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function ease(t){ return t * t * t * (t * (t * 6 - 15) + 10); }   /* smootherstep: zacht op gang, zacht tot stilstand */
+
+/* ---------- Carrousel: foto's schuiven als door een venster (parallax + fade) ---------- */
+function Carousel(box, photos, alt, eager){
+  var self = this;
+  this.box = box; this.n = photos.length; this.idx = 0; this.r = 0; this.pos = 0; this.anim = null; this.onChange = null;
+  this.car = box.querySelector('.car');
+  this.car.innerHTML = photos.map(function(ph, s){
+    return '<div class="cslide"><div class="ph"><img src="' + ph + '.jpg" alt="' + alt + ', photo ' + (s + 1) + '" draggable="false"' + (eager && s === 0 ? '' : ' loading="lazy"') + '></div><b></b><c></c><i></i><u></u></div>';
+  }).join('');
+  this.slides = Array.prototype.slice.call(this.car.querySelectorAll('.cslide'));
+  this.imgs = this.slides.map(function(s){ return s.querySelector('img'); });
+  this.dots = box.querySelector('.dots');
+  if (this.dots) {
+    this.dots.innerHTML = this.n > 1 ? photos.map(function(_, k){ return '<span class="dot' + (k ? '' : ' on') + '" data-s="' + k + '"></span>'; }).join('') : '';
+    /* tik op de bolletjes: naar dat bolletje, of (tik op de actieve) naar de volgende foto, aan het eind weer naar de eerste */
+    this.dots.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
+    this.dots.addEventListener('pointerup', function(e){ e.stopPropagation(); });
+    this.dots.addEventListener('click', function(e){
+      e.stopPropagation(); e.preventDefault();
+      var d = e.target.closest('.dot'), t = d ? +d.dataset.s : self.idx;
+      if (t === self.idx) self.next(); else self.goTo(t);
+    });
+  }
+  this.base = 0;
+  this.slides.forEach(function(sl, k){ sl.__bg = 'url("' + photos[k] + '.jpg")'; sl.querySelector('b').style.backgroundImage = sl.__bg; });
+  this.render(0);
+}
+function mod(a, n){ return ((a % n) + n) % n; }
+/* eindeloos: positie loopt door (…, -1, 0, 1, 2, …), getoonde foto = positie modulo aantal foto's (A-B-A-B-…) */
+/* render (origineel): foto's schuiven als door een venster, met parallax.
+   Tussen twee foto's geen harde lijn: ze overlappen een stukje (F) en de bovenste vervaagt daar zacht in de onderste.
+   Eindeloos: positie loopt door, getoonde foto = positie modulo aantal foto's (A-B-A-B-…) */
+Carousel.prototype.render = function(pos){
+  this.pos = pos;
+  var F = 12;                                            // helft van de max. overlap (in %); overlap groeit en krimpt zacht
+  for (var k = 0; k < this.n; k++) {
+    var d = mod(k - pos, this.n); if (d > this.n / 2) d -= this.n;      // kortste afstand, rondom
+    var a = Math.abs(d), sl = this.slides[k], st = sl.style, c = sl.__c || (sl.__c = {});
+    var ov = F * Math.sin(Math.PI * Math.min(1, a));        // 0 aan begin en eind -> geen sprong
+    st.transform = 'translate3d(' + (d * 100 - Math.sign(d) * ov).toFixed(3) + '%,0,0)';
+    var op = a < 1 ? '1' : '0'; if (c.op !== op) { st.opacity = op; c.op = op; }
+    sl.__ph = sl.__ph || sl.querySelector('.ph');
+    sl.__ph.style.transform = 'translate3d(' + (-d * 34).toFixed(3) + '%,0,0) scale(' + (1 + Math.min(a, 1) * 0.06).toFixed(4) + ')';
+    var top = k % 2 === 0, z = top ? '2' : '1'; if (c.z !== z) { st.zIndex = z; c.z = z; }
+    var m = '';
+    if (top && a > 0.001 && a < 1) {
+      var w = Math.round(2 * F * Math.sin(Math.PI * a) * 2) / 2;   // in stapjes van 0,5% -> minder herberekenen
+      m = 'linear-gradient(' + (d < 0 ? 'to left' : 'to right') + ', transparent 0%, #000 ' + w + '%)';
+    }
+    if (c.m !== m) { st.webkitMaskImage = st.maskImage = m; c.m = m; }
+  }
+  var on = mod(Math.round(pos), this.n);
+  if (this.dots && this.__on !== on) { this.__on = on; this.dots.querySelectorAll('.dot').forEach(function(dt, k){ dt.classList.toggle('on', k === on); }); }
+};
+Carousel.prototype.drag = function(dx){            // dx in px, live tijdens slepen
+  if (this.n < 2) return;
+  if (this.anim) cancelAnimationFrame(this.anim);
+  this.render(this.r - dx / this.car.clientWidth);
+};
+Carousel.prototype.release = function(dx, v){      // v = px/ms
+  var w = this.car.clientWidth, step = 0;
+  if (dx < -w * 0.18 || (v > 0.35 && dx < -20)) step = 1;
+  else if (dx > w * 0.18 || (v > 0.35 && dx > 20)) step = -1;
+  this.animateTo(this.r + step);
+};
+Carousel.prototype.next = function(){ this.animateTo(this.r + 1); };
+Carousel.prototype.prev = function(){ this.animateTo(this.r - 1); };
+Carousel.prototype.goTo = function(i, instant){      // naar foto i via de kortste weg
+  var delta = mod(i - this.idx, this.n); if (delta > this.n / 2) delta -= this.n;
+  this.animateTo(this.r + delta, instant);
+};
+Carousel.prototype.animateTo = function(R, instant, soft){   // soft = zacht op gang (vanuit stilstand)
+  var self = this, from = this.pos, start = performance.now(), dur = reduce || instant ? 0 : 340;
+  if (this.n < 2) R = 0;
+  this.following = false;
+  var old = this.idx; this.r = R; this.idx = mod(R, this.n); this.peeking = false;
+  if (this.anim) cancelAnimationFrame(this.anim);
+  (function step(now){
+    var k = dur ? Math.max(0, Math.min(1, (now - start) / dur)) : 1;   // nooit negatief (rAF-tijd kan vóór start liggen)
+    var fromRest = soft || Math.abs(from - Math.round(from)) < 0.01;
+    self.render(from + (R - from) * (fromRest ? ease(k) : 1 - Math.pow(1 - k, 3)));
+    if (k < 1) self.anim = requestAnimationFrame(step); else { self.anim = null; self.base = R; }
+  })(start);
+  if (old !== this.idx && this.onChange) this.onChange(this.idx);
+};
+/* trackpad (2 vingers horizontaal): 1 swipe = 1 foto.
+   Na een wissel negeren we de uitlopende 'momentum'-events (die worden steeds kleiner),
+   maar zodra de beweging weer GROTER wordt is dat een nieuwe swipe en reageren we meteen. */
+Carousel.prototype.wheel = function(e){
+  if (this.n < 2 || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return false;
+  e.preventDefault();
+  if (this.peeking) { cancelAnimationFrame(this.anim); this.anim = null; this.peeking = false; }
+  var self = this, w = this.car.clientWidth, a = Math.abs(e.deltaX), now = performance.now();
+  var prevA = this.wLast || 0, gap = now - (this.wLastT || 0);
+  this.wLast = a; this.wLastT = now;
+  clearTimeout(this.wEnd);
+  if (this.wLock) {
+    // momentum wordt alleen maar zwakker: wMin = zwakste tot nu toe. Wordt het duidelijk sterker -> nieuwe swipe
+    this.wMin = Math.min(this.wMin, a);
+    var cooled = now - this.wSwitchT > 260;
+    var newGesture = cooled && ((!this.anim && gap > 300) || a >= this.wMin * 2 + 3 || (Math.sign(e.deltaX) !== this.wDir && a >= 4));
+    if (!newGesture) return true;                        // nog momentum van de vorige swipe
+    this.wLock = false; this.wAcc = 0;
+  }
+  this.wheeling = true;
+  this.wAcc = (this.wAcc || 0) - e.deltaX;
+  // trackpad: het blad volgt je vingers maar tot een maximum (CAP), met weerstand. Ver genoeg? Dan klikt hij
+  // even vast (HOLD) en pas daarna slaat hij door naar de volgende foto.
+  var CAP = 0.32;
+  if (Math.abs(this.wAcc) > Math.max(70, w * 0.3)) {   // ver genoeg: doorlopen naar de volgende foto, vanuit de lopende beweging
+    var step = this.wAcc < 0 ? 1 : -1;
+    this.wDir = Math.sign(e.deltaX);
+    this.wAcc = 0; this.wLock = true; this.wMin = a; this.wSwitchT = now;
+    this.stopFollow(); this.wheeling = false;
+    this.animateTo(this.r + step);
+    return true;
+  }
+  if (this.anim && !this.following) return true;           // vorige overgang loopt nog: alleen optellen
+  var x = Math.abs(this.wAcc) / w, capped = CAP * (1 - Math.exp(-x / CAP));   // zachte limiet: hoe verder, hoe zwaarder
+  this.wTarget = this.r + (this.wAcc < 0 ? capped : -capped);
+  this.follow();
+  this.wEnd = setTimeout(function(){ if (self.wLock) return; self.wAcc = 0; self.wheeling = false; self.stopFollow(); self.animateTo(self.r); }, 160);
+  return true;
+};
+/* trackpad-events komen onregelmatig binnen; daarom volgt de foto een doelpositie vloeiend per beeldje (60/120 fps) */
+Carousel.prototype.follow = function(){
+  if (this.following) return;
+  var self = this; this.following = true;
+  if (this.anim) cancelAnimationFrame(this.anim);
+  (function step(){
+    if (!self.following) return;
+    var nx = self.pos + (self.wTarget - self.pos) * 0.28;
+    self.render(Math.abs(self.wTarget - nx) < 0.0005 ? self.wTarget : nx);
+    self.anim = requestAnimationFrame(step);
+  })();
+};
+Carousel.prototype.stopFollow = function(){ if (this.following) { this.following = false; cancelAnimationFrame(this.anim); this.anim = null; } };
+Carousel.prototype.busy = function(){ return !!(this.anim || this.wheeling); };
+Carousel.prototype.peek = function(){            // hint: even naar de volgende foto gluren
+  if (this.n < 2 || reduce) return;
+  if (this.anim || this.wheeling) return;            // gebruiker is al bezig: geen hint
+  var self = this, start = performance.now(), base = this.r;
+  (function step(now){
+    var k = Math.min(1, (now - start) / 900), p = Math.sin(k * Math.PI) * 0.16;
+    self.render(base + p);
+    self.anim = k < 1 ? requestAnimationFrame(step) : null;   // via this.anim: elke swipe/klik breekt de hint netjes af
+    self.peeking = k < 1;
+  })(start);
+};
+
+/* sleep-herkenning (muis + touch): horizontaal = carrousel, tik/klik = actie */
+function bindDrag(el, carFor, onTap){
+  var st = null;
+  el.addEventListener('pointerdown', function(e){
+    if (e.button > 0 || (e.target.closest && e.target.closest('.story-tag'))) { st = null; return; }
+    st = { x: e.clientX, y: e.clientY, t: Date.now(), mode: '', id: e.pointerId };
+  });
+  el.addEventListener('pointermove', function(e){
+    if (!st || e.pointerId !== st.id) return;
+    var dx = e.clientX - st.x, dy = e.clientY - st.y;
+    if (!st.mode) {
+      if (Math.abs(dx) > 5 && Math.abs(dx) > Math.abs(dy) * 0.6) { st.mode = 'h'; try { el.setPointerCapture(e.pointerId); } catch(_){} el.classList.add('dragging'); }
+      else if (Math.abs(dy) > 8) { st.mode = 'v'; }
+    }
+    if (st.mode === 'h') { e.preventDefault(); carFor().drag(dx); }
+  });
+  function end(e){
+    if (!st || e.pointerId !== st.id) return;
+    var dx = e.clientX - st.x, v = Math.abs(dx) / Math.max(1, Date.now() - st.t);
+    if (st.mode === 'h') carFor().release(dx, v);
+    else if (!st.mode && e.type === 'pointerup') onTap && onTap(e);
+    el.classList.remove('dragging'); st = null;
+  }
+  el.addEventListener('pointerup', end);
+  el.addEventListener('pointercancel', function(e){ if (st && st.mode === 'h') carFor().goTo(carFor().idx); el.classList.remove('dragging'); st = null; });
+  el.addEventListener('click', function(e){ e.preventDefault(); });   // klikken gaat via onTap
+}
+
+/* ---------- Grid ---------- */
+var grid = document.getElementById('grid');
+grid.innerHTML = PIECES.map(function(p, i){
+  return '<div class="piece" style="animation-delay:' + (0.35 + i * 0.07).toFixed(2) + 's">' +
+    '<div class="piece-img" data-i="' + i + '" role="button" tabindex="0" aria-label="View ' + p.name + ' larger"><div class="car"></div><div class="dots"></div></div>' +
+    '<a class="buy" style="--c:' + p.c + ';--ink:' + p.ink + '" href="' + p.vinted + '" target="_blank" rel="noopener">Buy here <span class="buy-sep">&middot;</span> &euro;&nbsp;' + p.price + '</a>' +
+  '</div>';
+}).join('');
+var gridCars = [];
+grid.querySelectorAll('.piece-img').forEach(function(box){
+  var i = +box.dataset.i, c = new Carousel(box, PIECES[i].photos, PIECES[i].name + ' necklace', i < 4);
+  gridCars[i] = c;
+  bindDrag(box, function(){ return c; }, function(){ window.__openLB(i, c.idx); });
+  box.addEventListener('wheel', function(e){ c.wheel(e); }, { passive: false });
+  box.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.__openLB(i, c.idx); } });
+});
+setTimeout(function(){ gridCars.forEach(function(c, k){ setTimeout(function(){ c.peek(); }, k * 90); }); }, 1500);
+/* alle foto's alvast laden + decoderen, anders hapert de eerste swipe even */
+window.addEventListener('load', function(){ gridCars.forEach(function(c){ c.imgs.forEach(function(im){ im.loading = 'eager'; if (im.decode) im.decode().catch(function(){}); }); }); });
+
+document.querySelector('.usp-tap').addEventListener('click', function(e){ e.stopPropagation(); e.preventDefault(); });
+/* gyroscoop: de regenboog in de glasranden beweegt mee als je je telefoon kantelt.
+   Zonder gyroscoop (laptop, of als iOS het niet toestaat) beweegt het licht zachtjes mee met scrollen en je muis. */
+(function(){
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var root = document.documentElement, tx = 0, ty = 0, gyro = false, raf = 0, base = null;
+  function clamp(v){ return v < -1 ? -1 : v > 1 ? 1 : v; }
+  var rot = null, vis = new Set();
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) vis.add(e.target); else vis.delete(e.target); }); kick();
+  }) : null;
+  document.querySelectorAll('.buy').forEach(function(el){ if (io) io.observe(el); else vis.add(el); });
+  function tick(){
+    raf = 0;
+    // hoek van de lichtbreking: start diagonaal (roze linksboven, blauw rechtsonder), scrollen draait hem met de klok mee
+    var target = 45 + scrollY * .35 + tx * 70 + ty * 30;
+    if (rot === null) rot = target;
+    var nr = rot + (target - rot) * .14, moving = Math.abs(nr - rot) > .05; rot = nr;
+    if (moving && Math.abs(rot - (tick.last || 0)) < .6) { raf = requestAnimationFrame(tick); return; }   // pas opnieuw tekenen bij een zichtbaar verschil
+    tick.last = rot;
+    var t = rot * Math.PI / 180, dx = Math.cos(t), dy = Math.sin(t);
+    // alleen op de knoppen die nu in beeld zijn (op :root zou elke frame de hele pagina herberekend worden)
+    var sdx = dx.toFixed(3), sdy = dy.toFixed(3), sang = (Math.atan2(dx, -dy) * 180 / Math.PI).toFixed(1);
+    vis.forEach(function(el){ el.style.setProperty('--dx', sdx); el.style.setProperty('--dy', sdy); el.style.setProperty('--ang', sang); });
+    if (moving) raf = requestAnimationFrame(tick);
+  }
+  function kick(){ if (!raf) raf = requestAnimationFrame(tick); }
+  function onOri(e){
+    if (e.gamma == null) return;
+    if (!base) base = { b: e.beta, g: e.gamma };                 // hoe je je telefoon vasthoudt = midden
+    gyro = true;
+    tx = clamp((e.gamma - base.g) / 25); ty = clamp((e.beta - base.b) / 25);
+    base.b += (e.beta - base.b) * .004; base.g += (e.gamma - base.g) * .004;   // midden schuift langzaam mee
+    kick();
+  }
+  function listen(){ window.addEventListener('deviceorientation', onOri, { passive: true }); }
+  if ('DeviceOrientationEvent' in window) listen();               // Android/Chrome: werkt meteen
+  // iOS (Safari, Insta, alle iPhone-browsers) geeft de gyroscoop alleen na een toestemmingspopup; die willen we niet, dus daar beweegt het licht met scrollen
+  window.addEventListener('scroll', kick, { passive: true });
+  window.addEventListener('pointermove', function(e){ if (gyro || e.pointerType !== 'mouse') return; tx = (e.clientX / innerWidth - .5) * .7; ty = (e.clientY / innerHeight - .5) * .7; kick(); }, { passive: true });
+  kick();
+})();
+/* liquid glass-knoppen: lichtvlek precies waar je tikt/wijst, en de knop rekt als water mee als je erop sleept */
+(function(){
+  var drag = null;
+  function spot(b, e){ var r = b.getBoundingClientRect(); b.style.setProperty('--mx', (e.clientX - r.left) + 'px'); b.style.setProperty('--my', (e.clientY - r.top) + 'px'); }
+  document.addEventListener('pointerdown', function(e){
+    var b = e.target.closest && e.target.closest('.buy, .usp-tap, .story-tag'); if (!b) return;
+    spot(b, e); drag = { b: b, x: e.clientX, y: e.clientY, moved: false, id: e.pointerId };
+  });
+  document.addEventListener('pointermove', function(e){
+    var b = e.target.closest && e.target.closest('.buy, .usp-tap, .story-tag');
+    if (b && !drag) spot(b, e);
+    if (!drag || e.pointerId !== drag.id) return;
+    spot(drag.b, e);
+    var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+    if (!drag.moved && Math.hypot(dx, dy) < 4) return;
+    drag.moved = true; drag.b.classList.add('dragging');
+    // elastisch: hoe verder je trekt, hoe zwaarder; rekt uit in de richting van je vinger, wordt smaller in de andere
+    var k = drag.b.classList.contains('buy') ? 1 : .4;   // het pilletje blijft binnen de video
+    var ex = 26 * k * Math.tanh(dx / 90), ey = 14 * k * Math.tanh(dy / 70);
+    var sx = 1 + Math.abs(ex) / 220, sy = 1 - Math.abs(ex) / 420 + Math.abs(ey) / 260;
+    drag.b.style.transform = 'translate(' + ex.toFixed(2) + 'px,' + ey.toFixed(2) + 'px) scale(' + sx.toFixed(4) + ',' + sy.toFixed(4) + ')';
+  }, { passive: true });
+  function release(e){
+    if (!drag || (e && e.pointerId !== drag.id)) return;
+    var b = drag.b, moved = drag.moved; drag = null;
+    b.classList.remove('dragging'); b.style.transform = '';          // veert terug met de wiebel-curve
+    if (moved) { b.__noClick = true; setTimeout(function(){ b.__noClick = false; }, 60); }
+  }
+  document.addEventListener('pointerup', release); document.addEventListener('pointercancel', release);
+  // na flink slepen is het geen klik (net als bij Apple: wegslepen = annuleren)
+  document.addEventListener('click', function(e){ var b = e.target.closest && e.target.closest('.buy, .usp-tap, .story-tag'); if (b && b.__noClick) { e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+})();
+/* Buy here: op touch eerst de tik-animatie, dan naar Vinted */
+document.addEventListener('click', function(e){
+  var a = e.target.closest && e.target.closest('.buy');
+  if (!a) return;
+  if (a.getAttribute('href') === '#') { e.preventDefault(); }
+  if (!touch || reduce || a.classList.contains('tapped')) return;
+  e.preventDefault();
+  a.classList.add('tapped');
+  setTimeout(function(){
+    if (a.getAttribute('href') !== '#') window.location.href = a.href;
+    setTimeout(function(){ a.classList.remove('tapped'); }, 500);
+  }, 350);
+});
+
+/* ---------- Foto groot: openen vanaf de foto, swipen/slepen tussen foto's, zoomen (tik/klik/knijp), omlaag wegswipen ---------- */
+(function(){
+  var lb = document.getElementById('lightbox'), frame = document.getElementById('lbFrame');
+  var buy = document.getElementById('lbBuy'), hint = document.getElementById('lbHint');
+  var ZOOM = 2.4, MAXZ = 4, zoomed = false, curZoom = 1, ox = 50, oy = 50;
+  var pts = new Map(), pinching = false, pStartDist = 0, pStartZoom = 1;
+  var current = -1, car = null, thumb = null, nat = null, busy = false;
+
+  function zImg(){ return car.imgs[car.idx]; }
+  function setShow(v, animate){ lb.classList.toggle('fade', !!animate); lb.style.setProperty('--show', v); }
+  function setOrigin(x, y){ ox = Math.max(0, Math.min(100, x)); oy = Math.max(0, Math.min(100, y)); zImg().style.transformOrigin = ox + '% ' + oy + '%'; }
+  function baseHint(){
+    var more = car && car.n > 1;
+    hint.textContent = more ? 'Pinch to zoom and swipe for more' : 'Pinch to zoom';
+  }
+  function zoomAt(cx, cy){
+    if (car.busy()) return;                               // niet zoomen midden in een foto-overgang
+    var r = frame.getBoundingClientRect();
+    setOrigin((cx - r.left) / r.width * 100, (cy - r.top) / r.height * 100);
+    zoomed = true; curZoom = ZOOM; frame.classList.add('zoomed'); zImg().style.transform = 'scale(' + ZOOM + ')';
+    hint.textContent = touch ? 'Drag to look around · tap to zoom out' : 'Move to look around · click to zoom out';
+  }
+  function unzoom(instant){
+    zoomed = false; curZoom = 1; frame.classList.remove('zoomed');
+    if (car) car.imgs.forEach(function(im){
+      if (instant) { im.style.transition = 'none'; im.style.transform = ''; im.offsetWidth; im.style.transition = ''; }
+      else im.style.transform = '';
+    });
+    baseHint();
+  }
+  // richting van een swipe omzetten naar vorige/volgende: links/omhoog = volgende, rechts/omlaag = vorige
+  function sideD(dx, dy){ return Math.abs(dx) >= Math.abs(dy) * 0.6 ? dx : dy; }
+  function dist(){ var a = Array.from(pts.values()); return Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y); }
+  function mid(){ var a = Array.from(pts.values()); return { x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2 }; }
+  function toThumb(){ var t = thumb.getBoundingClientRect(), s = t.width / nat.width; return 'translate(' + (t.left - nat.left) + 'px,' + (t.top - nat.top) + 'px) scale(' + s + ')'; }
+  function dragT(dx, dy, s){ return 'translate(' + (dx + (1 - s) * nat.width / 2) + 'px,' + (dy + (1 - s) * nat.height / 2) + 'px) scale(' + s + ')'; }
+
+  function open(i, s){
+    if (busy) return;
+    var p = PIECES[i]; current = i;
+    thumb = grid.querySelector('.piece-img[data-i="' + i + '"]');
+    car = new Carousel(frame, p.photos, p.name + ' necklace', true);
+    car.goTo(s || 0, true);
+    car.onChange = function(){ unzoom(true); };
+    p.photos.forEach(function(ph, k){ var big = new Image(); big.onload = function(){ if (current === i && car.imgs[k]) { car.imgs[k].src = big.src; car.slides[k].__bg = 'url("' + big.src + '")'; car.slides[k].querySelector('b').style.backgroundImage = car.slides[k].__bg; } }; big.src = ph + '_large.jpg'; });
+    buy.innerHTML = 'Buy here <span class="buy-sep">&middot;</span> &euro;&nbsp;' + p.price; buy.href = p.vinted;
+    buy.style.setProperty('--c', p.c); buy.style.setProperty('--ink', p.ink);
+    var dsc = document.getElementById('lbDesc'); dsc.innerHTML = p.desc ? '<span class="ttl" style="color:' + p.tc + '">' + p.name + '<span class="sp">&middot;</span><b>' + p.stone + '</b></span>' + p.desc : '';
+    unzoom(true); setOrigin(50, 50);
+    frame.style.transition = 'none'; frame.style.transform = '';
+    lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); document.documentElement.classList.add('no-scroll');
+    nat = frame.getBoundingClientRect();
+    setShow(0, false);
+    if (reduce) { setShow(1, false); return; }
+    frame.style.transform = toThumb();
+    thumb.style.visibility = 'hidden';
+    frame.offsetWidth;
+    requestAnimationFrame(function(){
+      frame.style.transition = 'transform .45s cubic-bezier(.2,.85,.25,1)';
+      frame.style.transform = '';
+      setShow(1, true);
+    });
+  }
+  window.__openLB = open;
+
+  function close(){
+    if (busy || !lb.classList.contains('open')) return;
+    busy = true;
+    unzoom(true);
+    gridCars[current].goTo(car.idx, true);           // kleine foto staat op dezelfde foto als waar je was
+    if (reduce) { finish(); return; }
+    frame.style.transition = 'transform .42s cubic-bezier(.3,.7,.25,1)';
+    frame.style.transform = toThumb();
+    setShow(0, true);
+    setTimeout(finish, 430);
+  }
+  function finish(){
+    lb.classList.remove('open', 'fade'); lb.setAttribute('aria-hidden', 'true'); document.documentElement.classList.remove('no-scroll');
+    frame.style.transition = 'none'; frame.style.transform = '';
+    if (thumb) thumb.style.visibility = '';
+    busy = false;
+  }
+
+  frame.addEventListener('wheel', function(e){
+    if (!car) return;
+    if (e.ctrlKey) {                                       // knijpen op de trackpad
+      e.preventDefault();
+      if (car.busy()) return;
+      var r = frame.getBoundingClientRect();
+      if (curZoom <= 1.01) setOrigin((e.clientX - r.left) / r.width * 100, (e.clientY - r.top) / r.height * 100);
+      var z = Math.max(1, Math.min(MAXZ, curZoom * Math.exp(-e.deltaY * 0.012)));
+      curZoom = z; zoomed = z > 1.02; frame.classList.toggle('zoomed', zoomed);
+      zImg().style.transition = 'none'; zImg().style.transform = 'scale(' + z + ')';
+      clearTimeout(frame.__zt); frame.__zt = setTimeout(function(){ zImg().style.transition = ''; if (curZoom < 1.08) unzoom(); }, 200);
+      hint.textContent = zoomed ? 'Move to look around · click to zoom out' : '';
+      if (!zoomed) baseHint();
+      return;
+    }
+    if (zoomed) {                                          // ingezoomd: 2 vingers = rondkijken
+      e.preventDefault();
+      var r2 = frame.getBoundingClientRect();
+      zImg().style.transition = 'none';
+      setOrigin(ox + e.deltaX / r2.width * 100 / curZoom * 1.5, oy + e.deltaY / r2.height * 100 / curZoom * 1.5);
+      return;
+    }
+    car.wheel(e);
+  }, { passive: false });
+  document.getElementById('lbClose').addEventListener('click', close);
+  lb.addEventListener('click', function(e){ if (e.target === lb || e.target.id === 'lbBg') close(); });
+  document.addEventListener('keydown', function(e){
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (!zoomed && e.key === 'ArrowRight') car.next();
+    if (!zoomed && e.key === 'ArrowLeft') car.prev();
+  });
+
+  var down = false, moved = false, mode = '', sx = 0, sy = 0, lx = 0, ly = 0, t0 = 0, dy = 0, dx = 0;
+  frame.addEventListener('pointerdown', function(e){
+    if (busy || e.target.closest('.dots')) return;
+    pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    try { frame.setPointerCapture(e.pointerId); } catch(_){}
+    if (pts.size === 2) {
+      if (car.busy() && mode !== 'side') { moved = true; return; }   // overgang bezig: geen knijp-zoom
+      pinching = true; moved = true;
+      if (mode === 'close') { frame.style.transition = 'transform .3s ease'; frame.style.transform = ''; setShow(1, true); }
+      if (mode === 'side') car.goTo(car.idx);
+      mode = '';
+      pStartDist = dist(); pStartZoom = curZoom;
+      if (curZoom <= 1.01) { var r0 = frame.getBoundingClientRect(), m = mid(); setOrigin((m.x - r0.left) / r0.width * 100, (m.y - r0.top) / r0.height * 100); }
+      return;
+    }
+    down = true; moved = false; mode = ''; sx = lx = e.clientX; sy = ly = e.clientY; t0 = Date.now(); dx = dy = 0;
+  });
+  frame.addEventListener('pointermove', function(e){
+    if (pts.has(e.pointerId)) pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pinching) {
+      if (pts.size < 2) return;
+      var z = Math.max(1, Math.min(MAXZ, pStartZoom * dist() / pStartDist));
+      curZoom = z; zoomed = z > 1.02; frame.classList.toggle('zoomed', zoomed);
+      zImg().style.transition = 'none'; zImg().style.transform = 'scale(' + z + ')';
+      return;
+    }
+    var r = frame.getBoundingClientRect();
+    if (zoomed) {
+      if (e.pointerType === 'mouse' && !down) { setOrigin((e.clientX - r.left) / r.width * 100, (e.clientY - r.top) / r.height * 100); return; }
+      if (!down) return;
+      var mx = e.clientX - lx, my = e.clientY - ly;
+      if (Math.abs(e.clientX - sx) + Math.abs(e.clientY - sy) > 4) moved = true;
+      zImg().style.transition = 'none';
+      setOrigin(ox - mx / r.width * 100 * 1.4, oy - my / r.height * 100 * 1.4);
+      lx = e.clientX; ly = e.clientY;
+      return;
+    }
+    if (!down) return;
+    dx = e.clientX - sx; dy = e.clientY - sy;
+    if (!mode) {
+      if (Math.hypot(dx, dy) > 8) {
+        if (dy > 0 && dy > Math.abs(dx) * 1.7 && e.pointerType !== 'mouse') { mode = 'close'; moved = true; }   // (bijna) recht omlaag = sluiten
+        else { mode = 'side'; moved = true; frame.classList.add('dragging'); }                                 // elke andere richting = foto wisselen
+      }
+    }
+    if (mode === 'close') {
+      var ddy = dy > 0 ? dy : dy * 0.25;
+      var prog = Math.min(Math.max(dy, 0) / 320, 1);
+      var s = 1 - prog * 0.22;
+      frame.style.transition = 'none';
+      frame.style.transform = dragT(dx * 0.35, ddy, s);
+      setShow(1 - prog * 0.9, false);
+    } else if (mode === 'side') {
+      car.drag(sideD(dx, dy));
+    }
+  });
+  frame.addEventListener('pointerup', function(e){
+    pts.delete(e.pointerId);
+    if (pinching) {
+      if (pts.size < 2) {
+        pinching = false; zImg().style.transition = '';
+        if (curZoom < 1.15) unzoom();
+        else hint.textContent = 'Drag to look around · tap to zoom out';
+        var rest = Array.from(pts.values())[0];
+        if (rest) { down = true; lx = sx = rest.x; ly = sy = rest.y; } else down = false;
+      }
+      return;
+    }
+    if (!down) return; down = false; frame.classList.remove('dragging');
+    var v = Math.max(1, Date.now() - t0);
+    if (mode === 'close') {
+      mode = '';
+      if (dy > 110 || (dy / v > 0.55 && dy > 30)) { close(); return; }
+      frame.style.transition = 'transform .55s cubic-bezier(.34,1.56,.64,1)';
+      frame.style.transform = '';
+      setShow(1, true);
+      return;
+    }
+    if (mode === 'side') { mode = ''; var sd = sideD(dx, dy); car.release(sd, Math.abs(sd) / v); return; }
+    if (car) zImg().style.transition = '';
+    if (moved) return;
+    if (zoomed) unzoom(); else zoomAt(e.clientX, e.clientY);
+  });
+  frame.addEventListener('pointercancel', function(e){
+    pts.delete(e.pointerId); pinching = false; down = false; frame.classList.remove('dragging');
+    if (mode === 'close') { frame.style.transition = 'transform .55s cubic-bezier(.34,1.56,.64,1)'; frame.style.transform = ''; setShow(1, true); }
+    if (mode === 'side') car.goTo(car.idx);
+    mode = '';
+  });
+})();
+</script>
+<script>
+/* Liquid glass (Chrome/Edge/Android): echte breking via SVG-displacement achter het glas */
+function lgChrome(chip, feImage) {
+if (!chip || !feImage) return;
+
+function clamp8(v) { return 128 + 127 * Math.tanh((v - 128) / 127); }
+
+function roundRectPath(ctx, x, y, w, h, r) {
+r = Math.max(0, Math.min(r, w / 2, h / 2));
+ctx.beginPath();
+ctx.moveTo(x + r, y);
+ctx.arcTo(x + w, y, x + w, y + h, r);
+ctx.arcTo(x + w, y + h, x, y + h, r);
+ctx.arcTo(x, y + h, x, y, r);
+ctx.arcTo(x, y, x + w, y, r);
+ctx.closePath();
+}
+
+function buildMap() {
+var chipRect = chip.getBoundingClientRect();
+if (chipRect.width < 2 || chipRect.height < 2) return;
+var w = Math.max(2, Math.round(chipRect.width));
+var h = Math.max(2, Math.round(chipRect.height));
+var radius = parseFloat(getComputedStyle(chip).borderRadius) || 20;
+var edge = Math.max(6, radius * 0.45);
+
+var mask = document.createElement('canvas');
+mask.width = w; mask.height = h;
+var mctx = mask.getContext('2d');
+mctx.fillStyle = '#000';
+mctx.fillRect(0, 0, w, h);
+mctx.fillStyle = '#fff';
+roundRectPath(mctx, edge, edge, w - edge * 2, h - edge * 2, Math.max(1, radius - edge));
+mctx.fill();
+
+var blurred = document.createElement('canvas');
+blurred.width = w; blurred.height = h;
+var bctx = blurred.getContext('2d');
+bctx.filter = 'blur(' + Math.max(1.5, edge * 0.32) + 'px)';
+bctx.drawImage(mask, 0, 0);
+
+var srcData;
+try { srcData = bctx.getImageData(0, 0, w, h).data; } catch (e) { return; }
+
+var out = document.createElement('canvas');
+out.width = w; out.height = h;
+var octx = out.getContext('2d');
+var outImg = octx.createImageData(w, h);
+var od = outImg.data;
+var strength = 8.5;
+
+function lum(x, y) {
+x = x < 0 ? 0 : (x >= w ? w - 1 : x);
+y = y < 0 ? 0 : (y >= h ? h - 1 : y);
+return srcData[(y * w + x) * 4];
+}
+
+for (var y = 0; y < h; y++) {
+for (var x = 0; x < w; x++) {
+var dx = (lum(x + 1, y) - lum(x - 1, y)) / 2;
+var dy = (lum(x, y + 1) - lum(x, y - 1)) / 2;
+var idx = (y * w + x) * 4;
+od[idx] = clamp8(128 + dx * strength);
+od[idx + 1] = clamp8(128 + dy * strength);
+od[idx + 2] = 128;
+od[idx + 3] = 255;
+}
+}
+octx.putImageData(outImg, 0, 0);
+var dataUrl = out.toDataURL();
+feImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', dataUrl);
+feImage.setAttribute('href', dataUrl);
+}
+
+var resizeTimer;
+window.addEventListener('resize', function() {
+clearTimeout(resizeTimer);
+resizeTimer = setTimeout(buildMap, 120);
+});
+
+buildMap();
+}
+
+/* Liquid glass (Safari/iPhone/Instagram op iOS): breking nagebootst door de video live op een canvas te vervormen */
+function lgSafari(chip, video) {
+var ua = navigator.userAgent;
+var isSafari = /^((?!chrome|android|crios|fxios|edg|opios).)*safari/i.test(ua);
+if (!isSafari) return;
+
+if (!chip || !video) return;
+var resizeT;
+
+chip.classList.add('safari-glass');
+
+var canvas = document.createElement('canvas');
+canvas.className = 'safari-glass-canvas';
+chip.insertBefore(canvas, chip.firstChild);
+var ctx = canvas.getContext('2d');
+
+var off = document.createElement('canvas');
+var offCtx = off.getContext('2d');
+
+var fieldW = 0, fieldH = 0, dxMap = null, dyMap = null;
+
+function roundRectPath(c, x, y, w, h, r) {
+r = Math.max(0, Math.min(r, w / 2, h / 2));
+c.beginPath();
+c.moveTo(x + r, y);
+c.arcTo(x + w, y, x + w, y + h, r);
+c.arcTo(x + w, y + h, x, y + h, r);
+c.arcTo(x, y + h, x, y, r);
+c.arcTo(x, y, x + w, y, r);
+c.closePath();
+}
+
+function computeField(w, h, radius) {
+var edge = Math.max(5, radius * 0.15);
+var mask = document.createElement('canvas');
+mask.width = w; mask.height = h;
+var mctx = mask.getContext('2d');
+mctx.fillStyle = '#000';
+mctx.fillRect(0, 0, w, h);
+mctx.fillStyle = '#fff';
+roundRectPath(mctx, edge, edge, w - edge * 2, h - edge * 2, Math.max(1, radius - edge));
+mctx.fill();
+
+var blurred = document.createElement('canvas');
+blurred.width = w; blurred.height = h;
+var bctx = blurred.getContext('2d');
+bctx.filter = 'blur(' + Math.max(6, radius * 0.25) + 'px)';
+bctx.drawImage(mask, 0, 0);
+
+var data;
+try { data = bctx.getImageData(0, 0, w, h).data; } catch (e) { return null; }
+
+function lum(x, y) {
+x = x < 0 ? 0 : (x >= w ? w - 1 : x);
+y = y < 0 ? 0 : (y >= h ? h - 1 : y);
+return data[(y * w + x) * 4];
+}
+
+var dx = new Float32Array(w * h);
+var dy = new Float32Array(w * h);
+for (var y = 0; y < h; y++) {
+for (var x = 0; x < w; x++) {
+var i = y * w + x;
+dx[i] = (lum(x + 1, y) - lum(x - 1, y)) / 2;
+dy[i] = (lum(x, y + 1) - lum(x, y - 1)) / 2;
+}
+}
+
+function boxBlur(src) {
+var tmp = new Float32Array(w * h);
+var r = 2;
+for (var y = 0; y < h; y++) {
+for (var x = 0; x < w; x++) {
+var sum = 0, cnt = 0;
+for (var k = -r; k <= r; k++) {
+var xx = x + k;
+if (xx < 0 || xx >= w) continue;
+sum += src[y * w + xx]; cnt++;
+}
+tmp[y * w + x] = sum / cnt;
+}
+}
+var out = new Float32Array(w * h);
+for (var y2 = 0; y2 < h; y2++) {
+for (var x2 = 0; x2 < w; x2++) {
+var sum2 = 0, cnt2 = 0;
+for (var k2 = -r; k2 <= r; k2++) {
+var yy = y2 + k2;
+if (yy < 0 || yy >= h) continue;
+sum2 += tmp[yy * w + x2]; cnt2++;
+}
+out[y2 * w + x2] = sum2 / cnt2;
+}
+}
+return out;
+}
+
+var dxS = boxBlur(boxBlur(dx));
+    var dyS = boxBlur(boxBlur(dy));
+
+    var maxAbs = 0;
+    for (var mi = 0; mi < dxS.length; mi++) {
+      var a1 = Math.abs(dxS[mi]); if (a1 > maxAbs) maxAbs = a1;
+      var a2 = Math.abs(dyS[mi]); if (a2 > maxAbs) maxAbs = a2;
+    }
+    var norm = maxAbs > 0.0001 ? (38 / maxAbs) : 1;
+    for (var mj = 0; mj < dxS.length; mj++) { dxS[mj] *= norm; dyS[mj] *= norm; }
+
+    return { dx: dxS, dy: dyS };
+}
+
+function setup() {
+var rect = chip.getBoundingClientRect();
+if (rect.width < 2 || rect.height < 2) return;
+var w = Math.max(2, Math.round(rect.width));
+var h = Math.max(2, Math.round(rect.height));
+var radius = parseFloat(getComputedStyle(chip).borderRadius) || 20;
+
+canvas.width = w; canvas.height = h;
+canvas.style.width = w + 'px';
+canvas.style.height = h + 'px';
+off.width = w; off.height = h;
+
+var field = computeField(w, h, radius);
+if (!field) return;
+dxMap = field.dx; dyMap = field.dy;
+fieldW = w; fieldH = h;
+}
+
+var scaleR = 0.42, scaleG = 0.24, scaleB = 0.05;   // originele regenboog van de passport-chip
+
+function clampCoord(v, max) { return v < 0 ? 0 : (v >= max ? max - 1 : v); }
+
+function render() {
+requestAnimationFrame(render);
+if (!dxMap || video.readyState < 2) return;
+
+var chipRect = chip.getBoundingClientRect();
+var videoRect = video.getBoundingClientRect();
+var nw = video.videoWidth, nh = video.videoHeight;
+if (!nw || !nh || videoRect.width < 2 || videoRect.height < 2) return;
+
+var scale = Math.max(videoRect.width / nw, videoRect.height / nh);
+var dispW = nw * scale, dispH = nh * scale;
+var offX = (videoRect.width - dispW) / 2;
+var offY = (videoRect.height - dispH) / 2;
+
+var px = (chipRect.left - videoRect.left);
+var py = (chipRect.top - videoRect.top);
+
+var srcX = (px - offX) / scale;
+var srcY = (py - offY) / scale;
+var srcW = chipRect.width / scale;
+var srcH = chipRect.height / scale;
+
+var w = fieldW, h = fieldH;
+if (w < 2 || h < 2) return;
+
+if (!isFinite(srcX) || !isFinite(srcY) || !isFinite(srcW) || !isFinite(srcH) || srcW <= 0 || srcH <= 0) return;
+
+var clampedX = Math.max(0, srcX);
+var clampedY = Math.max(0, srcY);
+var clampedX2 = Math.min(nw, srcX + srcW);
+var clampedY2 = Math.min(nh, srcY + srcH);
+var clampedW = clampedX2 - clampedX;
+var clampedH = clampedY2 - clampedY;
+if (clampedW <= 0 || clampedH <= 0) return;
+
+var destX = (clampedX - srcX) / srcW * w;
+var destY = (clampedY - srcY) / srcH * h;
+var destW = clampedW / srcW * w;
+var destH = clampedH / srcH * h;
+
+offCtx.save();
+offCtx.clearRect(0, 0, w, h);
+offCtx.filter = 'blur(1px)';
+try {
+offCtx.drawImage(video, clampedX, clampedY, clampedW, clampedH, destX, destY, destW, destH);
+} catch (e) { offCtx.restore(); return; }
+offCtx.restore();
+
+var srcData;
+try { srcData = offCtx.getImageData(0, 0, w, h).data; } catch (e) { return; }
+
+var outImg = ctx.createImageData(w, h);
+var od = outImg.data;
+
+function sampleBilinear(data, fx, fy, w, h, channel) {
+fx = fx < 0 ? 0 : (fx > w - 1 ? w - 1 : fx);
+fy = fy < 0 ? 0 : (fy > h - 1 ? h - 1 : fy);
+var x0 = Math.floor(fx), y0 = Math.floor(fy);
+var x1 = x0 + 1 > w - 1 ? w - 1 : x0 + 1;
+var y1 = y0 + 1 > h - 1 ? h - 1 : y0 + 1;
+var tx = fx - x0, ty = fy - y0;
+var p00 = data[(y0 * w + x0) * 4 + channel];
+var p10 = data[(y0 * w + x1) * 4 + channel];
+var p01 = data[(y1 * w + x0) * 4 + channel];
+var p11 = data[(y1 * w + x1) * 4 + channel];
+var top = p00 + (p10 - p00) * tx;
+var bot = p01 + (p11 - p01) * tx;
+return top + (bot - top) * ty;
+}
+
+for (var y = 0; y < h; y++) {
+for (var x = 0; x < w; x++) {
+var i = y * w + x;
+var gx = dxMap[i], gy = dyMap[i];
+
+var rVal = sampleBilinear(srcData, x + gx * scaleR, y + gy * scaleR, w, h, 0);
+var gVal = sampleBilinear(srcData, x + gx * scaleG, y + gy * scaleG, w, h, 1);
+var bVal = sampleBilinear(srcData, x + gx * scaleB, y + gy * scaleB, w, h, 2);
+
+var oidx = i * 4;
+od[oidx] = rVal;
+od[oidx + 1] = gVal;
+od[oidx + 2] = bVal;
+od[oidx + 3] = 255;
+}
+}
+ctx.putImageData(outImg, 0, 0);
+}
+
+setup();
+window.addEventListener('resize', function() {
+clearTimeout(resizeT);
+resizeT = setTimeout(setup, 150);
+});
+requestAnimationFrame(render);
+window.addEventListener('load', function() { setup(); });
+video.addEventListener('loadedmetadata', function() { setup(); });
+setTimeout(setup, 300);
+setTimeout(setup, 1200);
+}
+
+/* toepassen op het logo-glaasje in de banner én het labeltje in de paspoort-video */
+lgChrome(document.getElementById('glassChip'), document.getElementById('glassDisplacementMap'));
+lgSafari(document.getElementById('glassChip'), document.querySelector('.header-video-wrapper video'));
+lgChrome(document.querySelector('.usp-tap'), document.getElementById('lgPillMap'));
+(function(){   // eigen glas-filter voor de Story-labeltjes (allemaal even groot, dus één map)
+  var f = document.getElementById('liquidGlassFilter'), c = f.cloneNode(true);
+  c.id = 'lgStoryFilter'; c.querySelector('feImage').id = 'lgStoryMap';
+  var sc = { dispG: .30, dispR: .53, dispB: .07 };   // zelfde regenboog als de banner-chip
+  c.querySelectorAll('feDisplacementMap').forEach(function(d){ var k = d.getAttribute('result'); if (sc[k]) d.setAttribute('scale', sc[k]); d.setAttribute('yChannelSelector', 'B'); });   // alleen zijwaarts breken: lage pilletjes krijgen anders een cyaan streep
+  document.getElementById('lgPillFilter').parentNode.appendChild(c);
+  lgChrome(document.querySelector('.story-tag'), document.getElementById('lgStoryMap'));
+})();
+lgSafari(document.querySelector('.usp-tap'), document.getElementById('uspVideo'));
+
+(function() {
+var logoImg = document.querySelector('.passport-logo-overlay');
+
+function centerLogo() {
+var w = logoImg.naturalWidth, h = logoImg.naturalHeight;
+if (!w || !h) return;
+var c = document.createElement('canvas');
+c.width = w; c.height = h;
+var ctx = c.getContext('2d');
+ctx.drawImage(logoImg, 0, 0, w, h);
+var data;
+try { data = ctx.getImageData(0, 0, w, h).data; } catch (e) { return; }
+var minX = w, maxX = 0, minY = h, maxY = 0;
+var step = Math.max(1, Math.floor(w / 300));
+for (var y = 0; y < h; y += step) {
+for (var x = 0; x < w; x += step) {
+if (data[(y * w + x) * 4 + 3] > 10) {
+if (x < minX) minX = x;
+if (x > maxX) maxX = x;
+if (y < minY) minY = y;
+if (y > maxY) maxY = y;
+}
+}
+}
+if (maxX <= minX || maxY <= minY) return;
+var contentCenterX = (minX + maxX) / 2;
+var imgCenterX = w / 2;
+var shiftPctX = ((imgCenterX - contentCenterX) / w) * 100;
+var contentCenterY = (minY + maxY) / 2;
+var imgCenterY = h / 2;
+var shiftPctY = ((imgCenterY - contentCenterY) / h) * 100;
+logoImg.style.transform = 'translate(' + shiftPctX.toFixed(2) + '%, ' + shiftPctY.toFixed(2) + '%)';
+}
+
+if (logoImg.complete && logoImg.naturalWidth) centerLogo();
+else logoImg.addEventListener('load', centerLogo);
+})();
+</script>
+<script>
+(function(){
+  var chip = document.getElementById('glassChip'), logo = document.querySelector('.passport-logo-overlay');
+  // niet wachten op alle foto's van de pagina: zodra het logo zelf binnen is, verschijnt de chip
+  function show(){ chip.classList.add('ready'); }
+  if (logo.complete && logo.naturalWidth) requestAnimationFrame(show);
+  else { logo.addEventListener('load', show); logo.addEventListener('error', show); }
+  setTimeout(show, 900); // noodrem
+})();
+</script>
+<script>
+(function(){
+  var line = document.getElementById('noteLine');
+  if (!('IntersectionObserver' in window)) { line.classList.add('in'); return; }
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { line.classList.add('in'); io.disconnect(); } }); }, { threshold: 1, rootMargin: '0px 0px -40px 0px' });
+  io.observe(line);
+})();
+</script>
+<script>
+/* paspoort-video: af en toe een zacht stuitertje + groot bekijken (net als de sieraden) */
+(function(){
+  var box = document.getElementById('uspBox'), small = document.getElementById('uspVideo');
+  var vb = document.getElementById('vbox'), frame = document.getElementById('vboxFrame'), big = document.getElementById('vboxVideo');
+  if (!box || !vb) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches, nat = null, busy = false;
+  // stuitertje: na 2,5 sec en daarna elke 6 sec, alleen als hij in beeld is
+  if (!reduce) setInterval(function(){
+    var r = box.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight || vb.classList.contains('open')) return;
+    box.classList.remove('bounce'); void box.offsetWidth; box.classList.add('bounce');
+  }, 6000);
+  if (!reduce) setTimeout(function(){ box.classList.add('bounce'); }, 2500);
+  box.addEventListener('animationend', function(){ box.classList.remove('bounce'); });
+
+  function setShow(v, anim){ vb.classList.toggle('fade', !!anim); vb.style.setProperty('--show', v); }
+  function toSmall(){ var t = box.getBoundingClientRect(), s = t.width / nat.width; return 'translate(' + (t.left - nat.left) + 'px,' + (t.top - nat.top) + 'px) scale(' + s + ')'; }
+  function open(){
+    if (busy) return;
+    if (big.preload !== 'auto') { big.preload = 'auto'; big.load(); }
+    try { big.currentTime = small.currentTime || 0; } catch(e) {}
+    frame.style.transition = 'none'; frame.style.transform = '';
+    vb.classList.add('open'); vb.setAttribute('aria-hidden', 'false'); document.documentElement.classList.add('no-scroll');
+    nat = frame.getBoundingClientRect();
+    big.play().catch(function(){});
+    if (reduce) { setShow(1); return; }
+    setShow(0); frame.style.transform = toSmall(); box.style.visibility = 'hidden'; frame.offsetWidth;
+    requestAnimationFrame(function(){ frame.style.transition = 'transform .45s cubic-bezier(.2,.85,.25,1)'; frame.style.transform = ''; setShow(1, true); });
+  }
+  function close(){
+    if (busy || !vb.classList.contains('open')) return; busy = true;
+    try { small.currentTime = big.currentTime; } catch(e) {}
+    if (reduce) return finish();
+    frame.style.transition = 'transform .42s cubic-bezier(.3,.7,.25,1)'; frame.style.transform = toSmall(); setShow(0, true);
+    setTimeout(finish, 430);
+  }
+  function finish(){
+    big.pause(); vb.classList.remove('open', 'fade'); vb.setAttribute('aria-hidden', 'true'); document.documentElement.classList.remove('no-scroll');
+    frame.style.transition = 'none'; frame.style.transform = ''; box.style.visibility = ''; busy = false;
+  }
+  box.addEventListener('click', open);
+  box.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  document.getElementById('vboxClose').addEventListener('click', close);
+  document.getElementById('vboxBg').addEventListener('click', close);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  // omlaag wegswipen, met bounce terug als het niet ver genoeg is
+  var sy = 0, sx = 0, t0 = 0, dn = false, dy = 0;
+  frame.addEventListener('pointerdown', function(e){ dn = true; sy = e.clientY; sx = e.clientX; t0 = Date.now(); dy = 0; try { frame.setPointerCapture(e.pointerId); } catch(_){} });
+  frame.addEventListener('pointermove', function(e){
+    if (!dn) return; dy = e.clientY - sy; var dx = e.clientX - sx;
+    var prog = Math.min(Math.max(dy, 0) / 320, 1), s = 1 - prog * 0.22, yy = dy > 0 ? dy : dy * .25;
+    frame.style.transition = 'none';
+    frame.style.transform = 'translate(' + (dx * .35 + (1 - s) * nat.width / 2) + 'px,' + (yy + (1 - s) * nat.height / 2) + 'px) scale(' + s + ')';
+    setShow(1 - prog * .9);
+  });
+  function up(e){
+    if (!dn) return; dn = false; var v = dy / Math.max(1, Date.now() - t0);
+    if (dy > 110 || (v > .55 && dy > 30)) return close();
+    if (Math.abs(dy) < 6) { if (e.type === 'pointerup') return close(); }   // tik op de grote video = sluiten
+    frame.style.transition = 'transform .55s cubic-bezier(.34,1.56,.64,1)'; frame.style.transform = ''; setShow(1, true);
+  }
+  frame.addEventListener('pointerup', up); frame.addEventListener('pointercancel', up);
+})();
+
+/* paspoort-video: alleen afspelen als hij in beeld is (scheelt data en batterij) */
+(function(){
+  var v = document.getElementById('uspVideo'); if (!v) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;   // dan alleen de stilstaande cover
+  if (!('IntersectionObserver' in window)) { v.play().catch(function(){}); return; }
+  new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) v.play().catch(function(){}); else v.pause(); }); }, { threshold: 0.35 }).observe(v);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About – Doric Jewelry</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; }
+body { background: #fff; min-height: 100vh; font-family: 'Georgia', serif; color: #111; padding-bottom: 70px; }
+a { color: inherit; text-decoration: none; }
+@keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+body { animation: pageIn .6s ease both; }
+
+.header-video-wrapper {
+  width: 100vw; position: relative; overflow: hidden; line-height: 0;
+  height: clamp(135px, 18vw, 220px); margin-bottom: 8px;
+}
+.header-video-wrapper video {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 40%; display: block; pointer-events: none;
+  transform-origin: 50% 40%; animation: slowZoom 24s ease-in-out infinite alternate;
+}
+.header-video-wrapper::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 50%; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 55%, #fff 100%);
+}
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+
+.page { width: 100%; max-width: 480px; margin: 0 auto; padding: 0 24px; }
+.top-bar { padding: 6px 0 0; }
+.back { display: inline-block; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; }
+
+.head { text-align: center; margin: 34px 0 0; }
+.label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #aaa; }
+.title { display: block; width: min(300px, 78vw); height: auto; margin: 14px auto 0; }
+.divider { width: 100%; height: 1px; background: #e8e8e8; margin: 30px 0; transform-origin: center; }
+.intro { font-size: 21px; line-height: 1.5; font-style: italic; text-align: center; color: #222; text-wrap: balance; }
+
+.block { text-align: center; margin-top: 34px; }
+.block h2 { font-size: 10px; font-weight: normal; letter-spacing: 4px; text-transform: uppercase; color: #aaa; margin-bottom: 12px; }
+.block p { font-size: 15px; line-height: 1.75; color: #444; text-wrap: pretty; }
+.block p + p { margin-top: 12px; }
+
+.sign { text-align: center; margin-top: 40px; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: #aaa; }
+.cta { display: block; text-align: center; margin-top: 34px; }
+.cta span { display: inline-block; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; }
+
+@keyframes riseIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes lineGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.top-bar, .head, .intro, .block, .sign, .cta { animation: riseIn .8s cubic-bezier(.2,.7,.2,1) both; }
+.top-bar { animation-delay: .05s; } .head { animation-delay: .12s; } .divider { animation: lineGrow 1s ease .25s both; }
+.intro { animation-delay: .3s; } .block:nth-of-type(1) { animation-delay: .4s; } .block:nth-of-type(2) { animation-delay: .48s; }
+.block:nth-of-type(3) { animation-delay: .56s; } .block:nth-of-type(4) { animation-delay: .64s; } .block:nth-of-type(5) { animation-delay: .72s; } .sign, .cta { animation-delay: .72s; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="header-video-wrapper">
+  <video autoplay muted loop playsinline preload="auto" poster="passport-header-poster.jpg" disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+    <source src="passport-header-video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="page">
+  <div class="top-bar"><a class="back" href="index.html#home">&larr; Back</a></div>
+
+  <div class="head">
+    <p class="label">About</p>
+    <img class="title" src="DJ_Title_Doric_Jewelry.png" alt="Doric Jewelry" width="1000" height="86">
+  </div>
+  <div class="divider"></div>
+
+  <p class="intro">Myths you can wear.</p>
+
+  <section class="block">
+    <h2>The story</h2>
+    <p>Doric started with my passions. I studied to become an interior advisor at the HMC (Hout- en Meubileringscollege), where I discovered my love for materials and architecture: how stone, structure and form can tell a story.</p>
+    <p>I have always loved jewelry, but I wanted to make something different. Not just beautiful, but meaningful. So I brought together everything I love: architecture, natural materials and technology.</p>
+  </section>
+
+  <section class="block">
+    <h2>The name</h2>
+    <p>Doric is the oldest of the Greek architectural orders: the strong, unadorned columns of the temples. That balance between strength and simplicity is the foundation of every piece.</p>
+  </section>
+
+  <section class="block">
+    <h2>The stones</h2>
+    <p>Every necklace is made from natural stone and named after a figure or place from Greek mythology that shares its character. No two stones are alike, so no two necklaces are either.</p>
+  </section>
+
+  <section class="block">
+    <h2>Made for you</h2>
+    <p>Each piece is handmade to order. Once you order, your necklace is made just for you.</p>
+  </section>
+
+  <section class="block">
+    <h2>Its own passport</h2>
+    <p>This is where my love for technology comes in. Every necklace arrives in a Doric box with its own digital passport. Tap the logo with your phone to discover its story, its stones and how to care for it.</p>
+  </section>
+
+  <a class="cta" href="genesis.html"><span>Explore Genesis &rarr;</span></a>
+</div>
+</body>
+</html>
