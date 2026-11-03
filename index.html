@@ -284,6 +284,14 @@ a { color: inherit; text-decoration: none; }
   gen.addEventListener('mouseenter', function(){ if (touch || hov) return; sparkle(); hov = setInterval(sparkle, 170); });
   gen.addEventListener('mouseleave', function(){ clearInterval(hov); hov = null; });
   gen.addEventListener('pointerdown', function(e){ if (e.pointerType === 'mouse') return; for (var k = 0; k < 9; k++) setTimeout(sparkle, k * 55); });
+  /* Instagram op Android: Genesis openen in de eigen browser van de telefoon (Chrome e.d.) i.p.v. de Insta-browser.
+     Op iPhone kan dat niet meer betrouwbaar (Apple/Instagram blokkeren het), daar blijft hij gewoon in de app. */
+  function escapeIG(url){
+    var ua = navigator.userAgent || '';
+    if (!/Instagram/i.test(ua) || !/Android/i.test(ua)) return url;
+    var abs = new URL(url, location.href).href;
+    return 'intent://' + abs.replace(/^https?:\/\//, '') + '#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url=' + encodeURIComponent(abs) + ';end';
+  }
   /* Genesis: altijd eerst de sterretjes, dan zacht de pagina uitfaden en door */
   gen.addEventListener('click', function(e){
     if (reduce || e.metaKey || e.ctrlKey || gen.classList.contains('tapped')) return;
@@ -291,7 +299,7 @@ a { color: inherit; text-decoration: none; }
     gen.classList.add('tapped');
     if (!touch) for (var k = 0; k < 9; k++) setTimeout(sparkle, k * 55);
     setTimeout(function(){ document.body.style.transition = 'opacity .4s ease'; document.body.style.opacity = '0'; }, 420);
-    setTimeout(function(){ location.href = gen.href; }, 820);
+    setTimeout(function(){ location.href = escapeIG(gen.href); }, 820);
   });
   document.querySelectorAll('a.collection').forEach(function(a){
     a.addEventListener('click', function(e){
